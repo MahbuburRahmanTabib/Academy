@@ -1,0 +1,2196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StoryFrame Academy — Learn DaVinci Resolve from Scratch</title>
+  <meta name="description"
+    content="StoryFrame Academy teaches you to edit video like a pro using DaVinci Resolve — from scratch. Join today for ৳999.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,700;1,300;1,700&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <link rel="icon" href="storyframefavicon.svg" type="image/svg+xml">
+  <style>
+    /* ══════════════════════════════
+       RESET & ROOT
+    ══════════════════════════════ */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --void: #050D0B;
+      --abyss: #091814;
+      --sea: #0F2E27;
+      --jade: #3ECFB2;
+      --jade-dk: #0E9E86;
+      --frost: #E8F8F5;
+      --mist: rgba(232, 248, 245, 0.5);
+      --dim: rgba(232, 248, 245, 0.25);
+      --line: rgba(62, 207, 178, 0.12);
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      background: var(--void);
+      color: var(--frost);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      cursor: none;
+      overflow-x: hidden;
+      max-width: 100vw;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ══════════════════════════════
+       CUSTOM CURSOR
+    ══════════════════════════════ */
+    /* ══════════════════════════════
+       CUSTOM CURSOR (MINIMALIST)
+    ══════════════════════════════ */
+    .cursor {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      background: var(--jade);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform .15s ease, opacity .15s ease;
+    }
+
+    .cursor-ring {
+      position: fixed;
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(62, 207, 178, .3);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: width .25s ease, height .25s ease, border-color .25s ease, opacity .25s ease;
+    }
+
+    body.is-hovering .cursor {
+      transform: translate(-50%, -50%) scale(1.5);
+    }
+
+    body.is-hovering .cursor-ring {
+      width: 56px;
+      height: 56px;
+      border-color: rgba(62, 207, 178, .5);
+      opacity: 0.6;
+    }
+
+    /* ══════════════════════════════
+       ANIMATIONS
+    ══════════════════════════════ */
+    @keyframes riseUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes glowPulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      50% {
+        transform: scale(1.15);
+        opacity: .6;
+      }
+    }
+
+    @keyframes scrollDrop {
+      0% {
+        transform: scaleY(0);
+        transform-origin: top;
+      }
+
+      50% {
+        transform: scaleY(1);
+        transform-origin: top;
+      }
+
+      51% {
+        transform-origin: bottom;
+      }
+
+      100% {
+        transform: scaleY(0);
+        transform-origin: bottom;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .anim-rise {
+      animation: riseUp .8s cubic-bezier(.16, 1, .3, 1) both;
+    }
+
+    .d1 {
+      animation-delay: .2s;
+    }
+
+    .d2 {
+      animation-delay: .35s;
+    }
+
+    .d3 {
+      animation-delay: .5s;
+    }
+
+    .d4 {
+      animation-delay: .65s;
+    }
+
+    .d5 {
+      animation-delay: .8s;
+    }
+
+    .d6 {
+      animation-delay: 1.2s;
+    }
+
+    /* scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .7s cubic-bezier(.16, 1, .3, 1), transform .7s cubic-bezier(.16, 1, .3, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-d1 {
+      transition-delay: .1s;
+    }
+
+    .reveal-d2 {
+      transition-delay: .2s;
+    }
+
+    .reveal-d3 {
+      transition-delay: .3s;
+    }
+
+    .reveal-d4 {
+      transition-delay: .4s;
+    }
+
+    .reveal-d5 {
+      transition-delay: .5s;
+    }
+
+    .reveal-d6 {
+      transition-delay: .6s;
+    }
+
+    /* ══════════════════════════════
+       BUTTONS
+    ══════════════════════════════ */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+      padding: 16px 36px;
+      background: var(--jade);
+      color: var(--void);
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      border: none;
+      cursor: none;
+      transition: color .3s;
+    }
+
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--frost);
+      transform: translateX(-101%);
+      transition: transform .3s cubic-bezier(.16, 1, .3, 1);
+    }
+
+    .btn-primary:hover::after {
+      transform: translateX(0);
+    }
+
+    .btn-primary span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-primary:hover {
+      color: var(--void);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 36px;
+      border: 1px solid var(--line);
+      color: var(--mist);
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      transition: border-color .3s, color .3s;
+      cursor: none;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--jade);
+      color: var(--frost);
+    }
+
+    /* ══════════════════════════════
+       SECTION TAG
+    ══════════════════════════════ */
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--jade);
+      margin-bottom: 24px;
+    }
+
+    .section-tag::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--jade);
+      opacity: .5;
+    }
+
+    /* ══════════════════════════════
+       NAVIGATION
+    ══════════════════════════════ */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 60px;
+      background: linear-gradient(to bottom, rgba(5, 13, 11, .98), transparent);
+      backdrop-filter: blur(12px);
+      height: 120px;
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant', serif;
+      font-size: 22px;
+      line-height: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .nav-logo .logo-top {
+      font-weight: 700;
+      font-style: italic;
+      color: var(--frost);
+    }
+
+    .nav-logo .logo-top span {
+      color: var(--jade);
+      font-weight: 300;
+      font-style: normal;
+    }
+
+    .nav-logo .logo-labs {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 7px;
+      color: var(--mist);
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--mist);
+      transition: color .25s;
+    }
+
+    .nav-links a:hover {
+      color: var(--jade);
+    }
+
+    .nav-cta {
+      padding: 10px 24px;
+      background: var(--jade);
+      color: var(--void);
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: opacity .25s;
+      cursor: none;
+    }
+
+    .nav-cta:hover {
+      opacity: .85;
+    }
+
+    /* ══════════════════════════════
+       HERO
+    ══════════════════════════════ */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 100px 60px 80px;
+      overflow: hidden;
+      background: var(--void);
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 20%;
+      left: -10%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(62, 207, 178, .07) 0%, transparent 70%);
+      animation: glowPulse 8s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .hero-constellation {
+      position: absolute;
+      top: 50%;
+      right: 5%;
+      transform: translateY(-50%);
+      width: clamp(200px, 28vw, 340px);
+      height: clamp(200px, 28vw, 340px);
+      opacity: .12;
+      pointer-events: none;
+    }
+
+    .hero-constellation svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-constellation .c-node {
+      opacity: 0;
+      transition: opacity .6s ease;
+    }
+
+    .hero-constellation .c-line {
+      opacity: 0;
+      transition: opacity .6s ease;
+    }
+
+    .bg-da-vinci {
+      position: absolute;
+      top: 50%;
+      right: -15%;
+      transform: translateY(-50%) rotate(-15deg);
+      width: 60vw;
+      max-width: 800px;
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 1;
+      filter: grayscale(1);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--jade);
+      margin-bottom: 32px;
+    }
+
+    .hero-tag::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--jade);
+    }
+
+    .hero-headline {
+      font-family: 'Cormorant', serif;
+      font-size: clamp(64px, 9vw, 148px);
+      line-height: 1;
+      margin-bottom: 32px;
+    }
+
+    .hero-headline .hl-1 {
+      display: block;
+      font-weight: 700;
+    }
+
+    .hero-headline .hl-2 {
+      display: block;
+      font-weight: 700;
+      font-style: italic;
+      color: var(--jade);
+    }
+
+    .hero-headline .hl-3 {
+      display: block;
+      font-weight: 300;
+      opacity: .45;
+    }
+
+    .hero-desc {
+      max-width: 480px;
+      color: var(--mist);
+      font-size: 17px;
+      line-height: 1.7;
+      margin-bottom: 40px;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .scroll-indicator span {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: var(--jade);
+      animation: scrollDrop 2s ease-in-out infinite;
+    }
+
+    /* ══════════════════════════════
+       STATS BAR
+    ══════════════════════════════ */
+    .stats-bar {
+      background: var(--abyss);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .stat-item {
+      padding: 48px 40px;
+      border-right: 1px solid var(--line);
+      text-align: center;
+    }
+
+    .stat-item:last-child {
+      border-right: none;
+    }
+
+    .stat-num {
+      font-family: 'Cormorant', serif;
+      font-size: 56px;
+      font-weight: 700;
+      font-style: italic;
+      color: var(--jade);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--mist);
+    }
+
+    /* ══════════════════════════════
+       LEARN SECTION
+    ══════════════════════════════ */
+    .learn {
+      padding: 120px 60px;
+      background: var(--void);
+    }
+
+    .section-header {
+      margin-bottom: 64px;
+    }
+
+    .section-title {
+      font-family: 'Cormorant', serif;
+      font-size: clamp(40px, 5vw, 72px);
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    .section-title em {
+      font-style: italic;
+      color: var(--jade);
+    }
+
+    .section-sub {
+      color: var(--mist);
+      font-size: 16px;
+      line-height: 1.7;
+      max-width: 520px;
+      margin-top: 16px;
+    }
+
+    .learn-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .learn-card {
+      position: relative;
+      overflow: hidden;
+      padding: 44px 40px;
+      background: var(--abyss);
+      border: 1px solid var(--line);
+      transition: background .3s, border-color .3s;
+    }
+
+    .learn-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--jade), transparent);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+    .learn-card:hover {
+      background: var(--sea);
+      border-bottom: 2px solid var(--jade);
+    }
+
+    .learn-card:hover::before {
+      opacity: .5;
+    }
+
+    .learn-icon {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(62, 207, 178, .08);
+      border: 1px solid var(--line);
+      margin-bottom: 24px;
+    }
+
+    .learn-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--jade);
+      fill: none;
+      stroke-width: 1.5;
+    }
+
+    .learn-card h3 {
+      font-family: 'Cormorant', serif;
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .learn-card p {
+      color: var(--mist);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    /* ══════════════════════════════
+       CURRICULUM
+    ══════════════════════════════ */
+    .curriculum {
+      padding: 120px 0;
+      background: var(--abyss);
+      overflow: hidden;
+    }
+
+    .curriculum-header {
+      padding: 0 60px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 56px;
+      flex-wrap: wrap;
+      gap: 32px;
+    }
+
+    .curriculum-header h2 {
+      font-family: 'Cormorant', serif;
+      font-size: clamp(38px, 4vw, 60px);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+
+    .curriculum-header h2 em {
+      font-style: italic;
+      color: var(--jade);
+    }
+
+    .curriculum-header p {
+      color: var(--mist);
+      font-size: 15px;
+      line-height: 1.65;
+      max-width: 420px;
+    }
+
+    .curriculum-total {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-top: 12px;
+    }
+
+    /* Arrow controls */
+    .carousel-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .carousel-btn {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: 1px solid var(--line);
+      cursor: none;
+      transition: border-color .25s, background .25s;
+    }
+
+    .carousel-btn:hover {
+      border-color: var(--jade);
+      background: rgba(62, 207, 178, .08);
+    }
+
+    .carousel-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--mist);
+      fill: none;
+      stroke-width: 1.5;
+      transition: stroke .25s;
+    }
+
+    .carousel-btn:hover svg {
+      stroke: var(--jade);
+    }
+
+    .carousel-btn:disabled {
+      opacity: .3;
+      pointer-events: none;
+    }
+
+    /* Scroll track */
+    .carousel-track-wrap {
+      position: relative;
+    }
+
+    .carousel-track {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding: 0 60px 40px;
+      cursor: grab;
+      scrollbar-width: none;
+    }
+
+    .carousel-track::-webkit-scrollbar {
+      display: none;
+    }
+
+    .carousel-track.dragging {
+      cursor: grabbing;
+      scroll-behavior: auto;
+    }
+
+    /* Module cards */
+    .module-card {
+      flex: 0 0 320px;
+      scroll-snap-align: start;
+      padding: 36px 32px;
+      background: rgba(255, 255, 255, .02);
+      border: 1px solid var(--line);
+      border-top: 3px solid transparent;
+      position: relative;
+      transition: border-color .3s, background .3s, transform .3s;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .module-card:hover {
+      border-top-color: var(--jade);
+      background: rgba(62, 207, 178, .04);
+      transform: translateY(-4px);
+    }
+
+    .module-card-num {
+      font-family: 'Cormorant', serif;
+      font-size: 72px;
+      font-weight: 700;
+      font-style: italic;
+      color: rgba(62, 207, 178, .08);
+      line-height: 1;
+      margin-bottom: 12px;
+      user-select: none;
+    }
+
+    .module-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .module-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border: 1px solid var(--line);
+      color: var(--jade);
+      opacity: .7;
+      padding: 3px 8px;
+    }
+
+    .module-card h4 {
+      font-family: 'Cormorant', serif;
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .module-card p {
+      color: var(--mist);
+      font-size: 13px;
+      line-height: 1.6;
+      flex-grow: 1;
+      margin-bottom: 20px;
+    }
+
+    .module-meta {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--dim);
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+      margin-top: auto;
+    }
+
+    /* Progress bar */
+    .carousel-progress {
+      padding: 0 60px;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .carousel-progress-bar {
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+      position: relative;
+    }
+
+    .carousel-progress-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0%;
+      background: var(--jade);
+      transition: width .3s ease;
+    }
+
+    .carousel-progress-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--dim);
+      white-space: nowrap;
+    }
+
+    /* ══════════════════════════════
+       BUBBLE LEARN GRID
+    ══════════════════════════════ */
+    @keyframes bobFloat {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-14px);
+      }
+    }
+
+    .bubble-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 28px;
+      justify-content: center;
+    }
+
+    .bubble {
+      width: 260px;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 36px 28px;
+      background: var(--abyss);
+      border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+      border: 1px solid var(--line);
+      text-align: center;
+      cursor: none;
+      animation: bobFloat 4s ease-in-out infinite;
+      animation-delay: var(--bob-delay, 0s);
+      transition: background .3s, border-color .3s, box-shadow .3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bubble::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 20%;
+      right: 20%;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--jade), transparent);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+    .bubble:hover {
+      background: var(--sea);
+      border-color: rgba(62, 207, 178, .4);
+      box-shadow: 0 20px 60px rgba(62, 207, 178, .10);
+      animation-play-state: paused;
+    }
+
+    .bubble:hover::before {
+      opacity: 1;
+    }
+
+    .bubble-icon {
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(62, 207, 178, .08);
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      margin-bottom: 18px;
+      flex-shrink: 0;
+    }
+
+    .bubble-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--jade);
+      fill: none;
+      stroke-width: 1.5;
+    }
+
+    .bubble h3 {
+      font-family: 'Cormorant', serif;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    .bubble p {
+      color: var(--mist);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* ══════════════════════════════
+       WHO SECTION
+    ══════════════════════════════ */
+    .who {
+      padding: 120px 60px;
+      background: var(--void);
+    }
+
+    .who-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 64px;
+    }
+
+    .who-card {
+      padding: 40px 36px;
+      background: var(--abyss);
+      border: 1px solid var(--line);
+      transition: border-color .3s;
+    }
+
+    .who-card:hover {
+      border-color: rgba(62, 207, 178, .35);
+    }
+
+    .who-num {
+      font-family: 'Cormorant', serif;
+      font-size: 60px;
+      font-weight: 700;
+      font-style: italic;
+      color: var(--line);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .who-card h3 {
+      font-family: 'Cormorant', serif;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .who-card p {
+      color: var(--mist);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    /* ══════════════════════════════
+       GET SECTION
+    ══════════════════════════════ */
+    .get-section {
+      padding: 120px 60px;
+      background: var(--abyss);
+    }
+
+    .get-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 64px;
+    }
+
+    .get-item {
+      padding: 36px 32px;
+      background: rgba(255, 255, 255, .02);
+      border: 1px solid var(--line);
+    }
+
+    .get-check {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(62, 207, 178, .1);
+      margin-bottom: 20px;
+    }
+
+    .get-check svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--jade);
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .get-item h4 {
+      font-family: 'Cormorant', serif;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .get-item p {
+      color: var(--mist);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* ══════════════════════════════
+       INSTRUCTOR
+    ══════════════════════════════ */
+    .instructor {
+      padding: 120px 60px;
+      background: var(--abyss);
+    }
+
+    .instructor-inner {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .instructor-photo-wrap {
+      position: relative;
+      aspect-ratio: 3/4;
+      background: var(--sea);
+      overflow: hidden;
+    }
+
+    .instructor-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant', serif;
+      font-size: 80px;
+      font-weight: 700;
+      font-style: italic;
+      color: var(--jade);
+      opacity: .3;
+    }
+
+    .instructor-photo-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid var(--line);
+    }
+
+    .badge {
+      position: absolute;
+      bottom: -1px;
+      left: -1px;
+      padding: 12px 20px;
+      background: var(--jade);
+    }
+
+    .badge-name {
+      font-family: 'Cormorant', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--void);
+      line-height: 1;
+    }
+
+    .badge-role {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--void);
+      opacity: .7;
+    }
+
+    .instructor-bio h2 {
+      font-family: 'Cormorant', serif;
+      font-size: clamp(36px, 4vw, 56px);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+
+    .instructor-bio h2 em {
+      font-style: italic;
+      color: var(--jade);
+    }
+
+    .instructor-bio p {
+      color: var(--mist);
+      font-size: 16px;
+      line-height: 1.75;
+      margin-bottom: 16px;
+    }
+
+    .instructor-creds {
+      margin-top: 32px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .cred {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--jade);
+      border: 1px solid var(--line);
+      padding: 6px 14px;
+    }
+
+    /* ══════════════════════════════
+       PRICING
+    ══════════════════════════════ */
+    .pricing {
+      padding: 120px 60px;
+      background: var(--void);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pricing-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(ellipse, rgba(62, 207, 178, .05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .pricing-inner {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+
+    .pricing-inner .section-tag {
+      justify-content: center;
+    }
+
+    .pricing-inner h2 {
+      font-family: 'Cormorant', serif;
+      font-size: clamp(40px, 5vw, 72px);
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .pricing-inner h2 em {
+      font-style: italic;
+      color: var(--jade);
+    }
+
+    .pricing-inner>p {
+      color: var(--mist);
+      font-size: 17px;
+      max-width: 480px;
+      margin: 0 auto 60px;
+      line-height: 1.7;
+    }
+
+    .price-card {
+      position: relative;
+      overflow: hidden;
+      max-width: 520px;
+      margin: 0 auto;
+      background: var(--abyss);
+      border: 1px solid var(--line);
+      padding: 56px 52px;
+      text-align: center;
+    }
+
+    .price-card::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: 20%;
+      right: 20%;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--jade), transparent);
+    }
+
+    .price-tag {
+      font-family: 'Cormorant', serif;
+      font-size: 96px;
+      font-weight: 700;
+      font-style: italic;
+      color: var(--frost);
+      line-height: 1;
+      margin-bottom: 4px;
+      padding-bottom: 11px;
+    }
+
+    .price-tag sup {
+      font-size: 32px;
+      font-weight: 300;
+      vertical-align: top;
+      line-height: 1.4;
+      margin-right: 4px;
+    }
+
+    .price-period {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 40px;
+    }
+
+    .price-includes {
+      list-style: none;
+      margin-bottom: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .price-includes li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 15px;
+      color: var(--mist);
+      text-align: left;
+    }
+
+    .price-includes li::before {
+      content: '✦';
+      color: var(--jade);
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    .price-card .btn-primary {
+      width: 100%;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    .pricing-guarantee {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      justify-content: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+
+    .pricing-guarantee::before,
+    .pricing-guarantee::after {
+      content: '';
+      width: 20px;
+      height: 1px;
+      background: var(--dim);
+    }
+
+    /* ══════════════════════════════
+       FOOTER
+    ══════════════════════════════ */
+    footer {
+      background: var(--void);
+      border-top: 1px solid var(--line);
+      padding: 60px;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+
+    .footer-logo {
+      max-width: 240px;
+    }
+
+    .footer-logo .logo-top {
+      font-family: 'Cormorant', serif;
+      font-size: 28px;
+      font-weight: 700;
+      font-style: italic;
+    }
+
+    .footer-logo .logo-top span {
+      color: var(--jade);
+      font-weight: 300;
+      font-style: normal;
+    }
+
+    .footer-logo .logo-labs {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 7px;
+      text-transform: uppercase;
+      color: var(--mist);
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .footer-logo p {
+      color: var(--dim);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 60px;
+      flex-wrap: wrap;
+    }
+
+    .footer-col h5 {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--mist);
+      margin-bottom: 20px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-col a {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--dim);
+      transition: color .25s;
+    }
+
+    .footer-col a:hover {
+      color: var(--jade);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--line);
+      padding-top: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-bottom p {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+
+    /* SVG Constellation */
+    .constellation-svg line {
+      stroke: var(--jade);
+      stroke-width: 0.5;
+    }
+
+    .constellation-svg circle {
+      fill: var(--jade);
+    }
+
+    .constellation-svg .hub {
+      fill: var(--jade);
+    }
+
+    .constellation-svg .node-sm {
+      fill: rgba(232, 248, 245, .6);
+    }
+
+    /* ══════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════ */
+    @media (max-width: 900px) {
+      nav {
+        padding: 20px 30px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding: 90px 30px 70px;
+      }
+
+      .hero-constellation {
+        display: none;
+      }
+
+      .stats-bar {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stat-item:nth-child(2) {
+        border-right: none;
+      }
+
+      .learn {
+        padding: 80px 30px;
+      }
+
+      .learn-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .curriculum {
+        padding: 80px 0;
+      }
+
+      .curriculum-sticky {
+        position: relative;
+        height: auto;
+        overflow: visible;
+      }
+
+      .carousel-track {
+        padding: 0 24px 32px;
+      }
+
+      .curriculum-header {
+        padding: 0 24px;
+        flex-direction: row;
+        align-items: flex-end;
+      }
+
+      .carousel-track {
+        padding: 0 24px 32px;
+      }
+
+      .carousel-progress {
+        padding: 0 24px;
+      }
+
+      .module-card {
+        flex: 0 0 280px;
+      }
+
+      .who {
+        padding: 80px 30px;
+      }
+
+      .who-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .get-section {
+        padding: 80px 30px;
+      }
+
+      .get-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .instructor {
+        padding: 80px 30px;
+      }
+
+      .instructor-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .instructor-photo-wrap {
+        max-width: 320px;
+      }
+
+      .pricing {
+        padding: 80px 30px;
+      }
+
+      footer {
+        padding: 48px 30px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        padding: 18px 24px;
+      }
+
+      .hero {
+        padding: 90px 24px 60px;
+      }
+
+      section {
+        padding: 80px 24px;
+      }
+
+      .stats-bar {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .stat-item {
+        padding: 32px 20px;
+      }
+
+      .who-grid {
+        grid-template-columns: 1fr;
+      }
+
+      footer {
+        padding: 40px 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Custom Cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ══ NAVIGATION ══ -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <img src="storyframeacademytransparent.svg" alt="StoryFrame Academy"
+        style="height:160px; width:auto; display:block; margin: -20px 0;">
+    </a>
+    <ul class="nav-links">
+      <li><a href="#learn">Curriculum</a></li>
+      <li><a href="#who">Who It's For</a></li>
+      <li><a href="#instructor">Instructor</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+    </ul>
+    <a href="https://wa.me/+8801305321620" class="nav-cta" target="_blank">Enroll Now</a>
+  </nav>
+
+  <!-- ══ HERO ══ -->
+  <section class="hero" id="hero">
+    <div class="hero-glow"></div>
+
+    <div class="bg-da-vinci">
+      <img src="DaVinci_Resolve_Studio.png" alt="" style="width: 100%; height: auto;">
+    </div>
+
+    <!-- Constellation SVG -->
+    <div class="hero-constellation">
+      <svg viewBox="0 0 100 100" class="constellation-svg">
+        <line class="c-line" x1="48" y1="12" x2="80" y2="32" />
+        <line class="c-line" x1="80" y1="32" x2="72" y2="68" />
+        <line class="c-line" x1="72" y1="68" x2="28" y2="78" />
+        <line class="c-line" x1="28" y1="78" x2="14" y2="44" />
+        <line class="c-line" x1="14" y1="44" x2="48" y2="12" />
+        <line class="c-line" x1="40" y1="46" x2="48" y2="12" />
+        <line class="c-line" x1="40" y1="46" x2="80" y2="32" />
+        <line class="c-line" x1="40" y1="46" x2="72" y2="68" />
+        <line class="c-line" x1="40" y1="46" x2="28" y2="78" />
+        <line class="c-line" x1="40" y1="46" x2="14" y2="44" />
+        <line class="c-line" x1="40" y1="46" x2="62" y2="48" />
+        <circle class="c-node node-sm" cx="48" cy="12" r="2" />
+        <circle class="c-node node-sm" cx="80" cy="32" r="2" />
+        <circle class="c-node node-sm" cx="72" cy="68" r="2" />
+        <circle class="c-node node-sm" cx="28" cy="78" r="2" />
+        <circle class="c-node node-sm" cx="14" cy="44" r="2" />
+        <circle class="c-node node-sm" cx="62" cy="48" r="1.5" />
+        <circle class="c-node hub" cx="40" cy="46" r="4" />
+      </svg>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-tag anim-rise d1">DaVinci Resolve · From Scratch</div>
+      <h1 class="hero-headline anim-rise d2">
+        <span class="hl-1">Edit like</span>
+        <span class="hl-2">you have</span>
+        <span class="hl-3">something to say.</span>
+      </h1>
+      <p class="hero-desc anim-rise d3">
+        StoryFrame Academy is the definitive course for aspiring video editors who want to master DaVinci Resolve — and
+        develop an eye for cinematic storytelling that lasts a lifetime.
+      </p>
+      <div class="hero-actions anim-rise d4">
+        <a href="https://wa.me/+8801305321620" class="btn-primary" target="_blank"><span>Enroll Today — ৳999</span></a>
+        <a href="#learn" class="btn-ghost">Explore Curriculum</a>
+      </div>
+    </div>
+
+    <div class="scroll-indicator anim-rise d6">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ══ STATS BAR ══ -->
+  <div class="stats-bar">
+    <div class="stat-item reveal">
+      <div class="stat-num">12+</div>
+      <div class="stat-label">Hours of Content</div>
+    </div>
+    <div class="stat-item reveal reveal-d1">
+      <div class="stat-num">40+</div>
+      <div class="stat-label">Lessons</div>
+    </div>
+    <div class="stat-item reveal reveal-d2">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Lifetime Access</div>
+    </div>
+    <div class="stat-item reveal reveal-d3">
+      <div class="stat-num">1</div>
+      <div class="stat-label">Payment · Forever Yours</div>
+    </div>
+  </div>
+
+  <!-- ══ LEARN SECTION ══ -->
+  <section class="learn" id="learn">
+    <div class="section-header reveal">
+      <div class="section-tag">Module Overview</div>
+      <h2 class="section-title">What you'll <em>learn</em></h2>
+      <p class="section-sub">Six domains of craft, taught in sequence. Each one builds on the last. By the end, you
+        speak the language of professional editors.</p>
+    </div>
+    <div class="bubble-grid">
+      <div class="bubble reveal reveal-d1" style="--bob-delay:0s">
+        <div class="bubble-icon"><svg viewBox="0 0 24 24">
+            <rect x="3" y="3" width="18" height="14" rx="2" />
+            <path d="M8 21h8M12 17v4" />
+          </svg></div>
+        <h3>Interface Mastery</h3>
+        <p>Navigate every panel and page of DaVinci Resolve with full confidence.</p>
+      </div>
+      <div class="bubble reveal reveal-d2" style="--bob-delay:0.4s">
+        <div class="bubble-icon"><svg viewBox="0 0 24 24">
+            <path d="M15 10l-4 4-4-4" />
+            <rect x="3" y="3" width="18" height="18" rx="2" />
+          </svg></div>
+        <h3>Editing Principles</h3>
+        <p>The grammar of film editing — rhythm, pacing, match cuts, cut on action.</p>
+      </div>
+      <div class="bubble reveal reveal-d3" style="--bob-delay:0.8s">
+        <div class="bubble-icon"><svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="4" />
+            <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2" />
+          </svg></div>
+        <h3>Color Grading</h3>
+        <p>Build signature cinematic looks with curves, power windows, and LUTs.</p>
+      </div>
+      <div class="bubble reveal reveal-d4" style="--bob-delay:1.2s">
+        <div class="bubble-icon"><svg viewBox="0 0 24 24">
+            <path d="M9 18V5l12-2v13" />
+            <circle cx="6" cy="18" r="3" />
+            <circle cx="18" cy="16" r="3" />
+          </svg></div>
+        <h3>Audio &amp; Sound</h3>
+        <p>Fairlight mixing, sync, ambient layers and professional-grade sound design.</p>
+      </div>
+      <div class="bubble reveal reveal-d5" style="--bob-delay:0.2s">
+        <div class="bubble-icon"><svg viewBox="0 0 24 24">
+            <rect x="2" y="7" width="20" height="15" rx="2" />
+            <path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" />
+          </svg></div>
+        <h3>Motion &amp; Titles</h3>
+        <p>Fusion compositing, kinetic typography, and animated title sequences.</p>
+      </div>
+      <div class="bubble reveal reveal-d6" style="--bob-delay:0.6s">
+        <div class="bubble-icon"><svg viewBox="0 0 24 24">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+            <polyline points="17 8 12 3 7 8" />
+            <line x1="12" y1="3" x2="12" y2="15" />
+          </svg></div>
+        <h3>Export &amp; Delivery</h3>
+        <p>Render perfectly for YouTube, Instagram, cinema and client delivery.</p>
+      </div>
+    </div>
+
+    <!-- ══ CURRICULUM ══ -->
+    <section class="curriculum" id="curriculum">
+      <div class="curriculum-header reveal">
+        <div>
+          <div class="section-tag">Full Curriculum</div>
+          <h2>Every module, <em>mapped.</em></h2>
+          <p>Eight modules in deliberate sequence — each one preparing you for the next.</p>
+          <div class="curriculum-total">8 Modules · 40+ Lessons · 12+ Hours</div>
+        </div>
+        <div class="carousel-controls">
+          <button class="carousel-btn" id="prevBtn" aria-label="Previous">
+            <svg viewBox="0 0 24 24">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </button>
+          <button class="carousel-btn" id="nextBtn" aria-label="Next">
+            <svg viewBox="0 0 24 24">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="carousel-track-wrap">
+        <div class="carousel-track" id="moduleTrack">
+
+          <div class="module-card">
+            <div class="module-card-num">01</div>
+            <div class="module-card-head"><span class="module-tag">Foundation</span></div>
+            <h4>Getting Started &amp; Setup</h4>
+            <p>Install DaVinci Resolve, configure your system, set up your first project, and learn the key
+              preferences
+              that affect every edit you'll ever make.</p>
+            <div class="module-meta">5 Lessons · 45 min</div>
+          </div>
+
+          <div class="module-card">
+            <div class="module-card-num">02</div>
+            <div class="module-card-head"><span class="module-tag">Foundation</span></div>
+            <h4>Interface Deep Dive</h4>
+            <p>Master every panel and page — Cut, Edit, Color, Fairlight, Deliver. Understand how they connect and
+              when
+              to
+              use each one for maximum efficiency.</p>
+            <div class="module-meta">6 Lessons · 1 hr 10 min</div>
+          </div>
+
+          <div class="module-card">
+            <div class="module-card-num">03</div>
+            <div class="module-card-head"><span class="module-tag">Core</span></div>
+            <h4>The Edit Page — Fundamentals</h4>
+            <p>Build your first real sequence. Learn insert, overwrite, ripple, and roll edits. Cut on action,
+              establish
+              rhythm, and construct scenes that breathe.</p>
+            <div class="module-meta">7 Lessons · 1 hr 30 min</div>
+          </div>
+
+          <div class="module-card">
+            <div class="module-card-num">04</div>
+            <div class="module-card-head"><span class="module-tag">Core</span></div>
+            <h4>Color Science &amp; Grading</h4>
+            <p>Primary and secondary corrections, lift-gamma-gain, curves, qualifiers, power windows, and building a
+              signature cinematic look from scratch.</p>
+            <div class="module-meta">8 Lessons · 2 hr</div>
+          </div>
+
+          <div class="module-card">
+            <div class="module-card-num">05</div>
+            <div class="module-card-head"><span class="module-tag">Core</span></div>
+            <h4>Audio &amp; Fairlight Essentials</h4>
+            <p>Sync audio, navigate Fairlight, build a proper mix, add ambient sound and music — creating sequences
+              that
+              sound as professional as they look.</p>
+            <div class="module-meta">5 Lessons · 1 hr</div>
+          </div>
+
+          <div class="module-card">
+            <div class="module-card-num">06</div>
+            <div class="module-card-head"><span class="module-tag">Advanced</span></div>
+            <h4>Fusion &amp; Motion Graphics</h4>
+            <p>Enter the Fusion compositor. Build title animations, kinetic typography, lower thirds, and motion
+              graphics
+              that make your work look like a film studio made it.</p>
+            <div class="module-meta">6 Lessons · 1 hr 45 min</div>
+          </div>
+
+          <div class="module-card">
+            <div class="module-card-num">07</div>
+            <div class="module-card-head"><span class="module-tag">Final</span></div>
+            <h4>Full Project — Edit a Short Film</h4>
+            <p>Put every skill together. You receive raw footage and build a complete short film — editing, color,
+              audio,
+              and titles — from start to finish.</p>
+            <div class="module-meta">4 Lessons · 2 hr</div>
+          </div>
+
+          <div class="module-card">
+            <div class="module-card-num">08</div>
+            <div class="module-card-head"><span class="module-tag">Bonus</span></div>
+            <h4>Export, Deliver &amp; Go Live</h4>
+            <p>Render for YouTube, Instagram, cinema, and client delivery. Understand codecs, bit depth, color spaces,
+              and
+              frame rates so your work always looks right.</p>
+            <div class="module-meta">4 Lessons · 45 min</div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="carousel-progress">
+        <div class="carousel-progress-bar">
+          <div class="carousel-progress-fill" id="progressFill"></div>
+        </div>
+        <span class="carousel-progress-label" id="progressLabel">1 / 8</span>
+      </div>
+    </section>
+
+    <!-- ══ WHO SECTION ══ -->
+    <section class="who" id="who">
+      <div class="section-header reveal" style="text-align:center; max-width:600px; margin:0 auto;">
+        <div class="section-tag" style="justify-content:center;">Who It's For</div>
+        <h2 class="section-title">This course is built for <em>three people.</em></h2>
+      </div>
+      <div class="who-grid">
+        <div class="who-card reveal reveal-d1">
+          <div class="who-num">01</div>
+          <h3>The Complete Beginner</h3>
+          <p>You've never opened DaVinci Resolve. Maybe you've never edited video at all. You have a story to tell and
+            no
+            idea how to tell it technically. This is where you start.</p>
+        </div>
+        <div class="who-card reveal reveal-d2">
+          <div class="who-num">02</div>
+          <h3>The Self-Taught Switcher</h3>
+          <p>You've used Premiere or iMovie. You know the basics. But you sense there's a deeper craft — better color,
+            cleaner audio, more intentional storytelling. DaVinci unlocks it.</p>
+        </div>
+        <div class="who-card reveal reveal-d3">
+          <div class="who-num">03</div>
+          <h3>The Creator Going Pro</h3>
+          <p>You post content. You want it to look more cinematic. Your edits feel generic. You're ready to develop a
+            distinct visual identity and editing style that people recognize instantly.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ GET SECTION ══ -->
+    <section class="get-section">
+      <div class="section-header reveal" style="text-align:center; max-width:520px; margin:0 auto;">
+        <div class="section-tag" style="justify-content:center;">What's Included</div>
+        <h2 class="section-title">Everything you <em>get</em></h2>
+      </div>
+      <div class="get-grid">
+        <div class="get-item reveal reveal-d1">
+          <div class="get-check"><svg viewBox="0 0 24 24">
+              <polyline points="20 6 9 17 4 12" />
+            </svg></div>
+          <h4>40+ Video Lessons</h4>
+          <p>Structured, paced, and shot with production quality that matches the craft being taught.</p>
+        </div>
+        <div class="get-item reveal reveal-d2">
+          <div class="get-check"><svg viewBox="0 0 24 24">
+              <polyline points="20 6 9 17 4 12" />
+            </svg></div>
+          <h4>Project Files</h4>
+          <p>Raw footage, project timelines, and LUTs — so you can follow along with the exact same material.</p>
+        </div>
+        <div class="get-item reveal reveal-d3">
+          <div class="get-check"><svg viewBox="0 0 24 24">
+              <polyline points="20 6 9 17 4 12" />
+            </svg></div>
+          <h4>Private Community</h4>
+          <p>Access to the StoryFrame community — share your edits, get feedback, and connect with fellow students.</p>
+        </div>
+        <div class="get-item reveal reveal-d4">
+          <div class="get-check"><svg viewBox="0 0 24 24">
+              <polyline points="20 6 9 17 4 12" />
+            </svg></div>
+          <h4>LUT Pack</h4>
+          <p>Exclusive cinematic LUTs developed specifically for StoryFrame Academy students to use in their own work.
+          </p>
+        </div>
+        <div class="get-item reveal reveal-d5">
+          <div class="get-check"><svg viewBox="0 0 24 24">
+              <polyline points="20 6 9 17 4 12" />
+            </svg></div>
+          <h4>Lifetime Access</h4>
+          <p>Pay once. The course is yours forever. Every future update, every added lesson — included at no extra cost.
+          </p>
+        </div>
+        <div class="get-item reveal reveal-d6">
+          <div class="get-check"><svg viewBox="0 0 24 24">
+              <polyline points="20 6 9 17 4 12" />
+            </svg></div>
+          <h4>Certificate of Completion</h4>
+          <p>Shareable proof that you completed StoryFrame Academy — for your portfolio, LinkedIn, or client pitches.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ INSTRUCTOR ══ -->
+    <section class="instructor" id="instructor">
+      <div class="instructor-inner">
+        <div class="reveal">
+          <div class="instructor-photo-wrap">
+            <img src="picofme.png" alt="Instructor"
+              style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+            <div class="badge">
+              <div class="badge-name">Mahbubur Rahman</div>
+              <div class="badge-role">Lead Instructor</div>
+            </div>
+          </div>
+        </div>
+        <div class="instructor-bio reveal reveal-d2">
+          <div class="section-tag">The Instructor</div>
+          <h2>Taught by someone who <em>actually edits.</em></h2>
+          <p>This course was built by a working video editor with years of experience across documentary, commercial,
+            and
+            narrative projects. Not a course creator who happens to edit — an editor who happens to teach.</p>
+          <p>The goal was never to make a course. The goal was to teach the way I wish I'd been taught — focused on
+            craft,
+            judgment, and aesthetic instinct rather than button-clicking tutorials.</p>
+          <p>Every lesson exists because it was necessary. Nothing is here for runtime padding.</p>
+          <div class="instructor-creds">
+            <span class="cred">DaVinci Resolve Certified</span>
+            <span class="cred">Documentary Editing</span>
+            <span class="cred">Color Grading</span>
+            <span class="cred">Commercial Work</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ PRICING ══ -->
+    <section class="pricing" id="pricing">
+      <div class="pricing-glow"></div>
+      <div class="pricing-inner">
+        <div class="section-tag reveal">One Price · Lifetime Access</div>
+        <h2 class="reveal"><em>Simple</em> pricing.</h2>
+        <p class="reveal">No subscriptions. No upsells. One payment, and the course is yours — now and forever.</p>
+        <div class="price-card reveal">
+          <div class="price-tag"><sup>৳</sup>999</div>
+          <div class="price-period">One-time · Lifetime Access</div>
+          <ul class="price-includes">
+            <li>40+ structured video lessons</li>
+            <li>Complete project source files &amp; footage</li>
+            <li>Exclusive StoryFrame LUT pack</li>
+            <li>Private student community access</li>
+            <li>Certificate of completion</li>
+            <li>All future course updates</li>
+            <li>Lifetime access — yours forever</li>
+          </ul>
+          <a href="https://wa.me/+8801305321620" class="btn-primary" target="_blank"><span>Enroll Now — ৳999</span></a>
+          <div class="pricing-guarantee">30-Day Money-Back Guarantee</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ FOOTER ══ -->
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-logo">
+          <img src="storyframeacademytransparent.svg" alt="StoryFrame Academy"
+            style="height:220px; width:auto; display:block; margin-bottom:12px; margin-left: -30px;">
+          <p>A StoryFrame Labs Company. Teaching craft, building creative identity.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-col">
+            <h5>Course</h5>
+            <ul>
+              <li><a href="#learn">Curriculum</a></li>
+              <li><a href="#who">Who It's For</a></li>
+              <li><a href="#instructor">Instructor</a></li>
+              <li><a href="https://wa.me/+8801305321620" target="_blank">Enroll</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h5>Company</h5>
+            <ul>
+              <li><a href="#">About</a></li>
+              <li><a href="#">StoryFrame Labs</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h5>Legal</h5>
+            <ul>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Service</a></li>
+              <li><a href="#">Refund Policy</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 StoryFrame Labs. All rights reserved.</p>
+        <p>StoryFrame Academy · DaVinci Resolve Course</p>
+      </div>
+    </footer>
+
+    <script>
+      // ══ CUSTOM CURSOR ══
+      const cursor = document.getElementById('cursor');
+      const ring = document.getElementById('cursorRing');
+      let mx = 0, my = 0, rx = 0, ry = 0;
+
+      document.addEventListener('mousemove', e => {
+        mx = e.clientX; my = e.clientY;
+        if (cursor) {
+          cursor.style.left = mx + 'px';
+          cursor.style.top = my + 'px';
+        }
+      });
+
+      function animRing() {
+        rx += (mx - rx) * .15;
+        ry += (my - ry) * .15;
+        if (ring) {
+          ring.style.left = rx + 'px';
+          ring.style.top = ry + 'px';
+        }
+        requestAnimationFrame(animRing);
+      }
+      animRing();
+
+      // Manage hover states
+      const hoverables = 'a, button, .carousel-btn, .nav-cta';
+      document.addEventListener('mouseover', e => {
+        if (e.target.closest(hoverables)) {
+          document.body.classList.add('is-hovering');
+        }
+      });
+      document.addEventListener('mouseout', e => {
+        if (e.target.closest(hoverables)) {
+          document.body.classList.remove('is-hovering');
+        }
+      });
+
+      // ══ SCROLL REVEAL ══
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            obs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+      // ══ CURRICULUM HORIZONTAL CAROUSEL ══
+      const track = document.getElementById('moduleTrack');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const fill = document.getElementById('progressFill');
+      const label = document.getElementById('progressLabel');
+      const TOTAL = track ? track.querySelectorAll('.module-card').length : 8;
+      const STEP = 340; // card width + gap
+
+      function updateProgress() {
+        if (!track) return;
+        const max = track.scrollWidth - track.clientWidth;
+        const pct = max > 0 ? (track.scrollLeft / max) * 100 : 0;
+        const index = Math.round((track.scrollLeft / max) * (TOTAL - 1)) + 1;
+        fill.style.width = pct + '%';
+        label.textContent = index + ' / ' + TOTAL;
+        if (prevBtn) prevBtn.disabled = track.scrollLeft <= 0;
+        if (nextBtn) nextBtn.disabled = track.scrollLeft >= max - 2;
+      }
+
+      if (prevBtn) prevBtn.addEventListener('click', () => { track.scrollLeft -= STEP; });
+      if (nextBtn) nextBtn.addEventListener('click', () => { track.scrollLeft += STEP; });
+      if (track) track.addEventListener('scroll', updateProgress);
+      updateProgress();
+
+      // Drag to scroll
+      if (track) {
+        let isDown = false, startX, scrollStart;
+        track.addEventListener('mousedown', e => { isDown = true; startX = e.pageX; scrollStart = track.scrollLeft; track.classList.add('dragging'); });
+        track.addEventListener('mouseleave', () => { isDown = false; track.classList.remove('dragging'); });
+        track.addEventListener('mouseup', () => { isDown = false; track.classList.remove('dragging'); });
+        track.addEventListener('mousemove', e => { if (!isDown) return; e.preventDefault(); track.scrollLeft = scrollStart - (e.pageX - startX); });
+      }
+
+      // ══ CONSTELLATION ANIMATION ══
+      window.addEventListener('load', () => {
+        const nodes = document.querySelectorAll('.hero-constellation .c-node');
+        const lines = document.querySelectorAll('.hero-constellation .c-line');
+
+        nodes.forEach((n, i) =>
+          setTimeout(() => { n.style.opacity = '1'; }, i * 180)
+        );
+        lines.forEach((l, i) =>
+          setTimeout(() => { l.style.opacity = '1'; }, 600 + i * 120)
+        );
+      });
+    </script>
+</body>
+
+</html>
