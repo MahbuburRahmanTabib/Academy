@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StoryFrame Academy — Learn DaVinci Resolve from Scratch</title>
   <meta name="description"
-    content="StoryFrame Academy teaches you to edit video like a pro using DaVinci Resolve — from scratch. Join today for ৳999.">
+    content="StoryFrame Academy teaches you to edit video like a pro using DaVinci Resolve — live online classes. Join today for ৳499.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -59,9 +59,6 @@
 
     /* ══════════════════════════════
        CUSTOM CURSOR
-    ══════════════════════════════ */
-    /* ══════════════════════════════
-       CUSTOM CURSOR (MINIMALIST)
     ══════════════════════════════ */
     .cursor {
       position: fixed;
@@ -148,43 +145,26 @@
       }
     }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
+    @keyframes livePulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
 
-      to {
-        opacity: 1;
-      }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .anim-rise {
       animation: riseUp .8s cubic-bezier(.16, 1, .3, 1) both;
     }
 
-    .d1 {
-      animation-delay: .2s;
-    }
-
-    .d2 {
-      animation-delay: .35s;
-    }
-
-    .d3 {
-      animation-delay: .5s;
-    }
-
-    .d4 {
-      animation-delay: .65s;
-    }
-
-    .d5 {
-      animation-delay: .8s;
-    }
-
-    .d6 {
-      animation-delay: 1.2s;
-    }
+    .d1 { animation-delay: .2s; }
+    .d2 { animation-delay: .35s; }
+    .d3 { animation-delay: .5s; }
+    .d4 { animation-delay: .65s; }
+    .d5 { animation-delay: .8s; }
+    .d6 { animation-delay: 1.2s; }
 
     /* scroll reveal */
     .reveal {
@@ -198,28 +178,37 @@
       transform: translateY(0);
     }
 
-    .reveal-d1 {
-      transition-delay: .1s;
+    .reveal-d1 { transition-delay: .1s; }
+    .reveal-d2 { transition-delay: .2s; }
+    .reveal-d3 { transition-delay: .3s; }
+    .reveal-d4 { transition-delay: .4s; }
+    .reveal-d5 { transition-delay: .5s; }
+    .reveal-d6 { transition-delay: .6s; }
+
+    /* ══════════════════════════════
+       LIVE BADGE
+    ══════════════════════════════ */
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 60, 60, 0.12);
+      border: 1px solid rgba(255, 60, 60, 0.35);
+      padding: 6px 14px;
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #ff6b6b;
     }
 
-    .reveal-d2 {
-      transition-delay: .2s;
-    }
-
-    .reveal-d3 {
-      transition-delay: .3s;
-    }
-
-    .reveal-d4 {
-      transition-delay: .4s;
-    }
-
-    .reveal-d5 {
-      transition-delay: .5s;
-    }
-
-    .reveal-d6 {
-      transition-delay: .6s;
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ff4444;
+      animation: livePulse 1.4s ease-in-out infinite;
+      flex-shrink: 0;
     }
 
     /* ══════════════════════════════
@@ -474,7 +463,7 @@
       letter-spacing: 5px;
       text-transform: uppercase;
       color: var(--jade);
-      margin-bottom: 32px;
+      margin-bottom: 20px;
     }
 
     .hero-tag::before {
@@ -483,6 +472,14 @@
       width: 32px;
       height: 1px;
       background: var(--jade);
+    }
+
+    .hero-badges {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
     }
 
     .hero-headline {
@@ -549,6 +546,83 @@
       height: 40px;
       background: var(--jade);
       animation: scrollDrop 2s ease-in-out infinite;
+    }
+
+    /* ══════════════════════════════
+       LIVE SCHEDULE BANNER
+    ══════════════════════════════ */
+    .live-banner {
+      background: linear-gradient(135deg, rgba(62, 207, 178, 0.07) 0%, rgba(9, 24, 20, 1) 100%);
+      border-top: 1px solid rgba(62, 207, 178, 0.2);
+      border-bottom: 1px solid rgba(62, 207, 178, 0.2);
+      padding: 40px 60px;
+    }
+
+    .live-banner-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .live-banner-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 8px;
+    }
+
+    .live-banner-item .lbi-icon {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(62, 207, 178, .08);
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      margin-bottom: 4px;
+    }
+
+    .live-banner-item .lbi-icon svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--jade);
+      fill: none;
+      stroke-width: 1.5;
+    }
+
+    .live-banner-item .lbi-num {
+      font-family: 'Cormorant', serif;
+      font-size: 40px;
+      font-weight: 700;
+      font-style: italic;
+      color: var(--jade);
+      line-height: 1;
+    }
+
+    .live-banner-item .lbi-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--mist);
+    }
+
+    .live-banner-item .lbi-sub {
+      font-size: 12px;
+      color: var(--dim);
+      line-height: 1.5;
+    }
+
+    .live-banner-divider {
+      width: 1px;
+      height: 60px;
+      background: var(--line);
+      margin: 0 auto;
     }
 
     /* ══════════════════════════════
@@ -688,6 +762,69 @@
       color: var(--mist);
       font-size: 15px;
       line-height: 1.65;
+    }
+
+    /* ══════════════════════════════
+       HOW IT WORKS — LIVE SECTION
+    ══════════════════════════════ */
+    .how-it-works {
+      padding: 100px 60px;
+      background: var(--abyss);
+    }
+
+    .hiw-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 56px;
+    }
+
+    .hiw-card {
+      padding: 44px 36px;
+      background: rgba(255,255,255,.02);
+      border: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+      transition: background .3s;
+    }
+
+    .hiw-card:hover {
+      background: var(--sea);
+    }
+
+    .hiw-step {
+      font-family: 'Cormorant', serif;
+      font-size: 72px;
+      font-weight: 700;
+      font-style: italic;
+      color: rgba(62,207,178,.07);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .hiw-card h3 {
+      font-family: 'Cormorant', serif;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .hiw-card p {
+      color: var(--mist);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .hiw-tag {
+      display: inline-block;
+      margin-bottom: 16px;
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--jade);
+      border: 1px solid var(--line);
+      padding: 4px 10px;
     }
 
     /* ══════════════════════════════
@@ -923,15 +1060,8 @@
        BUBBLE LEARN GRID
     ══════════════════════════════ */
     @keyframes bobFloat {
-
-      0%,
-      100% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(-14px);
-      }
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-14px); }
     }
 
     .bubble-grid {
@@ -1268,7 +1398,7 @@
       color: var(--jade);
     }
 
-    .pricing-inner>p {
+    .pricing-inner > p {
       color: var(--mist);
       font-size: 17px;
       max-width: 480px;
@@ -1373,6 +1503,316 @@
       width: 20px;
       height: 1px;
       background: var(--dim);
+    }
+
+    /* ══════════════════════════════
+       ROADMAP / TIMELINE
+    ══════════════════════════════ */
+    .roadmap {
+      padding: 120px 60px;
+      background: var(--void);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .roadmap::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 59px,
+          rgba(62,207,178,0.03) 59px,
+          rgba(62,207,178,0.03) 60px
+        );
+      pointer-events: none;
+    }
+
+    .roadmap-header {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 80px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .roadmap-header h2 {
+      font-family: 'Cormorant', serif;
+      font-size: clamp(40px, 5vw, 72px);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .roadmap-header h2 em {
+      font-style: italic;
+      color: var(--jade);
+    }
+
+    .roadmap-header p {
+      color: var(--mist);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    /* The vertical spine */
+    .roadmap-spine {
+      position: relative;
+      z-index: 2;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .roadmap-spine::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom,
+        transparent 0%,
+        var(--jade) 8%,
+        var(--jade) 92%,
+        transparent 100%
+      );
+      opacity: 0.2;
+      transform: translateX(-50%);
+    }
+
+    /* Each week row */
+    .roadmap-week {
+      display: grid;
+      grid-template-columns: 1fr 64px 1fr;
+      gap: 0;
+      margin-bottom: 0;
+      align-items: center;
+      min-height: 160px;
+    }
+
+    /* Alternating: odd weeks have content left, even weeks content right */
+    .roadmap-week:nth-child(odd) .rw-content  { text-align: right; padding-right: 40px; }
+    .roadmap-week:nth-child(even) .rw-content { grid-column: 3; text-align: left; padding-left: 40px; }
+    .roadmap-week:nth-child(even) .rw-spine   { grid-column: 2; grid-row: 1; }
+    .roadmap-week:nth-child(even) .rw-empty   { grid-column: 1; grid-row: 1; }
+
+    .rw-empty { /* placeholder on the opposite side */ }
+
+    /* Center spine node */
+    .rw-spine {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 3;
+      gap: 6px;
+    }
+
+    .rw-node {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--void);
+      border: 2px solid var(--jade);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--jade);
+      letter-spacing: 1px;
+      position: relative;
+      transition: background .3s, box-shadow .3s;
+      flex-shrink: 0;
+    }
+
+    .roadmap-week:hover .rw-node {
+      background: rgba(62,207,178,0.12);
+      box-shadow: 0 0 24px rgba(62,207,178,0.25);
+    }
+
+    /* Connector line from node to content card */
+    .rw-connector {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(62,207,178,0.3));
+    }
+
+    .roadmap-week:nth-child(even) .rw-connector {
+      background: linear-gradient(to left, transparent, rgba(62,207,178,0.3));
+    }
+
+    /* Content card */
+    .rw-content {
+      padding: 28px 32px;
+      background: var(--abyss);
+      border: 1px solid var(--line);
+      border-top: 2px solid transparent;
+      position: relative;
+      transition: border-color .3s, background .3s, transform .3s;
+      cursor: default;
+    }
+
+    .roadmap-week:hover .rw-content {
+      border-top-color: var(--jade);
+      background: rgba(62,207,178,0.04);
+      transform: translateY(-3px);
+    }
+
+    .rw-week-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--jade);
+      opacity: .7;
+      margin-bottom: 8px;
+    }
+
+    .rw-title {
+      font-family: 'Cormorant', serif;
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .rw-title em {
+      font-style: italic;
+      color: var(--jade);
+    }
+
+    .rw-desc {
+      color: var(--mist);
+      font-size: 13px;
+      line-height: 1.65;
+      margin-bottom: 14px;
+    }
+
+    .rw-sessions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .rw-session-pill {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--dim);
+      border: 1px solid var(--line);
+      padding: 4px 10px;
+    }
+
+    .rw-outcome {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(62,207,178,0.5);
+    }
+
+    /* Milestone marker between certain weeks */
+    .roadmap-milestone {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 16px 0;
+      position: relative;
+      z-index: 3;
+    }
+
+    .roadmap-milestone span {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--jade);
+      opacity: .5;
+    }
+
+    .roadmap-milestone::before,
+    .roadmap-milestone::after {
+      content: '';
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(62,207,178,0.3));
+    }
+
+    .roadmap-milestone::after {
+      background: linear-gradient(to left, transparent, rgba(62,207,178,0.3));
+    }
+
+    /* End node */
+    .roadmap-end {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding-top: 32px;
+      position: relative;
+      z-index: 3;
+    }
+
+    .roadmap-end-node {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(62,207,178,0.1);
+      border: 1px solid var(--jade);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .roadmap-end p {
+      font-family: 'Cormorant', serif;
+      font-size: 22px;
+      font-weight: 700;
+      font-style: italic;
+      color: var(--jade);
+    }
+
+    .roadmap-end small {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+
+    @media (max-width: 900px) {
+      .roadmap { padding: 80px 24px; }
+      .roadmap-spine::before { left: 28px; transform: none; }
+      .roadmap-week {
+        grid-template-columns: 56px 1fr;
+        grid-template-rows: auto;
+        min-height: auto;
+        margin-bottom: 8px;
+      }
+      .roadmap-week:nth-child(odd) .rw-content,
+      .roadmap-week:nth-child(even) .rw-content {
+        grid-column: 2;
+        grid-row: 1;
+        text-align: left;
+        padding: 24px 20px;
+      }
+      .roadmap-week:nth-child(odd) .rw-spine,
+      .roadmap-week:nth-child(even) .rw-spine {
+        grid-column: 1;
+        grid-row: 1;
+      }
+      .roadmap-week .rw-empty { display: none; }
+      .roadmap-week:nth-child(even) .rw-empty { display: none; }
+      .roadmap-end { align-items: flex-start; padding-left: 8px; }
     }
 
     /* ══════════════════════════════
@@ -1499,139 +1939,44 @@
        RESPONSIVE
     ══════════════════════════════ */
     @media (max-width: 900px) {
-      nav {
-        padding: 20px 30px;
-      }
-
-      .nav-links {
-        display: none;
-      }
-
-      .hero {
-        padding: 90px 30px 70px;
-      }
-
-      .hero-constellation {
-        display: none;
-      }
-
-      .stats-bar {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .stat-item:nth-child(2) {
-        border-right: none;
-      }
-
-      .learn {
-        padding: 80px 30px;
-      }
-
-      .learn-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .curriculum {
-        padding: 80px 0;
-      }
-
-      .curriculum-sticky {
-        position: relative;
-        height: auto;
-        overflow: visible;
-      }
-
-      .carousel-track {
-        padding: 0 24px 32px;
-      }
-
-      .curriculum-header {
-        padding: 0 24px;
-        flex-direction: row;
-        align-items: flex-end;
-      }
-
-      .carousel-track {
-        padding: 0 24px 32px;
-      }
-
-      .carousel-progress {
-        padding: 0 24px;
-      }
-
-      .module-card {
-        flex: 0 0 280px;
-      }
-
-      .who {
-        padding: 80px 30px;
-      }
-
-      .who-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .get-section {
-        padding: 80px 30px;
-      }
-
-      .get-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .instructor {
-        padding: 80px 30px;
-      }
-
-      .instructor-inner {
-        grid-template-columns: 1fr;
-      }
-
-      .instructor-photo-wrap {
-        max-width: 320px;
-      }
-
-      .pricing {
-        padding: 80px 30px;
-      }
-
-      footer {
-        padding: 48px 30px;
-      }
-
-      .footer-inner {
-        flex-direction: column;
-      }
+      nav { padding: 20px 30px; }
+      .nav-links { display: none; }
+      .hero { padding: 90px 30px 70px; }
+      .hero-constellation { display: none; }
+      .stats-bar { grid-template-columns: repeat(2, 1fr); }
+      .stat-item:nth-child(2) { border-right: none; }
+      .learn { padding: 80px 30px; }
+      .learn-grid { grid-template-columns: 1fr; }
+      .curriculum { padding: 80px 0; }
+      .carousel-track { padding: 0 24px 32px; }
+      .curriculum-header { padding: 0 24px; flex-direction: row; align-items: flex-end; }
+      .carousel-progress { padding: 0 24px; }
+      .module-card { flex: 0 0 280px; }
+      .who { padding: 80px 30px; }
+      .who-grid { grid-template-columns: 1fr; }
+      .get-section { padding: 80px 30px; }
+      .get-grid { grid-template-columns: 1fr; }
+      .instructor { padding: 80px 30px; }
+      .instructor-inner { grid-template-columns: 1fr; }
+      .instructor-photo-wrap { max-width: 320px; }
+      .pricing { padding: 80px 30px; }
+      footer { padding: 48px 30px; }
+      .footer-inner { flex-direction: column; }
+      .live-banner { padding: 32px 30px; }
+      .live-banner-inner { grid-template-columns: 1fr; gap: 24px; }
+      .live-banner-divider { display: none; }
+      .how-it-works { padding: 80px 30px; }
+      .hiw-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 768px) {
-      nav {
-        padding: 18px 24px;
-      }
-
-      .hero {
-        padding: 90px 24px 60px;
-      }
-
-      section {
-        padding: 80px 24px;
-      }
-
-      .stats-bar {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .stat-item {
-        padding: 32px 20px;
-      }
-
-      .who-grid {
-        grid-template-columns: 1fr;
-      }
-
-      footer {
-        padding: 40px 24px;
-      }
+      nav { padding: 18px 24px; }
+      .hero { padding: 90px 24px 60px; }
+      section { padding: 80px 24px; }
+      .stats-bar { grid-template-columns: 1fr 1fr; }
+      .stat-item { padding: 32px 20px; }
+      .who-grid { grid-template-columns: 1fr; }
+      footer { padding: 40px 24px; }
     }
   </style>
 </head>
@@ -1649,12 +1994,13 @@
         style="height:160px; width:auto; display:block; margin: -20px 0;">
     </a>
     <ul class="nav-links">
+      <li><a href="#roadmap">Roadmap</a></li>
       <li><a href="#learn">Curriculum</a></li>
       <li><a href="#who">Who It's For</a></li>
       <li><a href="#instructor">Instructor</a></li>
       <li><a href="#pricing">Pricing</a></li>
     </ul>
-    <a href="https://wa.me/+8801305321620" class="nav-cta" target="_blank">Enroll Now</a>
+    <a href="https://wa.me/+8801305321620?text=Hi%2C+I%27d+like+to+enroll+in+StoryFrame+Academy+%28DaVinci+Resolve+Course%29.+Please+share+the+enrollment+details+%F0%9F%99%8F" class="nav-cta" target="_blank">Enroll Now</a>
   </nav>
 
   <!-- ══ HERO ══ -->
@@ -1690,18 +2036,22 @@
     </div>
 
     <div class="hero-content">
-      <div class="hero-tag anim-rise d1">DaVinci Resolve · From Scratch</div>
+      <div class="hero-tag anim-rise d1">DaVinci Resolve · Live Online Classes</div>
+      <div class="hero-badges anim-rise d2">
+        <div class="live-badge"><div class="live-dot"></div>Live Classes</div>
+        <div class="live-badge" style="color: var(--jade); border-color: var(--line); background: rgba(62,207,178,0.07);">Recordings Included</div>
+      </div>
       <h1 class="hero-headline anim-rise d2">
         <span class="hl-1">Edit like</span>
         <span class="hl-2">you have</span>
         <span class="hl-3">something to say.</span>
       </h1>
       <p class="hero-desc anim-rise d3">
-        StoryFrame Academy is the definitive course for aspiring video editors who want to master DaVinci Resolve — and
-        develop an eye for cinematic storytelling that lasts a lifetime.
+        StoryFrame Academy is a live online course for aspiring video editors who want to master DaVinci Resolve.
+        Three classes a week, over two months — taught live, with recordings available after every session.
       </p>
       <div class="hero-actions anim-rise d4">
-        <a href="https://wa.me/+8801305321620" class="btn-primary" target="_blank"><span>Enroll Today — ৳999</span></a>
+        <a href="https://wa.me/+8801305321620?text=Hi%2C+I%27d+like+to+enroll+in+StoryFrame+Academy+%28DaVinci+Resolve+Course%29.+Please+share+the+enrollment+details+%F0%9F%99%8F" class="btn-primary" target="_blank"><span>Enroll Today — ৳499</span></a>
         <a href="#learn" class="btn-ghost">Explore Curriculum</a>
       </div>
     </div>
@@ -1712,33 +2062,258 @@
     </div>
   </section>
 
+  <!-- ══ LIVE SCHEDULE BANNER ══ -->
+  <div class="live-banner">
+    <div class="live-banner-inner">
+      <div class="live-banner-item reveal">
+        <div class="lbi-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="lbi-num">3×</div>
+        <div class="lbi-label">Classes Per Week</div>
+        <div class="lbi-sub">Live interactive sessions, every week</div>
+      </div>
+      <div class="live-banner-divider"></div>
+      <div class="live-banner-item reveal reveal-d2">
+        <div class="lbi-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <div class="lbi-num">2 mo</div>
+        <div class="lbi-label">Course Duration</div>
+        <div class="lbi-sub">~24 live sessions across 8 weeks</div>
+      </div>
+      <div class="live-banner-divider"></div>
+      <div class="live-banner-item reveal reveal-d4">
+        <div class="lbi-icon">
+          <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+        </div>
+        <div class="lbi-num">✓</div>
+        <div class="lbi-label">Recordings Provided</div>
+        <div class="lbi-sub">Watch back every class anytime after it ends</div>
+      </div>
+    </div>
+  </div>
+
   <!-- ══ STATS BAR ══ -->
   <div class="stats-bar">
     <div class="stat-item reveal">
-      <div class="stat-num">12+</div>
-      <div class="stat-label">Hours of Content</div>
+      <div class="stat-num">~24</div>
+      <div class="stat-label">Live Sessions</div>
     </div>
     <div class="stat-item reveal reveal-d1">
-      <div class="stat-num">40+</div>
-      <div class="stat-label">Lessons</div>
+      <div class="stat-num">3×</div>
+      <div class="stat-label">Per Week</div>
     </div>
     <div class="stat-item reveal reveal-d2">
-      <div class="stat-num">∞</div>
-      <div class="stat-label">Lifetime Access</div>
+      <div class="stat-num">8</div>
+      <div class="stat-label">Weeks of Learning</div>
     </div>
     <div class="stat-item reveal reveal-d3">
-      <div class="stat-num">1</div>
-      <div class="stat-label">Payment · Forever Yours</div>
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Recording Access</div>
     </div>
   </div>
+
+  <!-- ══ ROADMAP / CLASS ROUTINE ══ -->
+  <section class="roadmap" id="roadmap">
+    <div class="roadmap-header reveal">
+      <div class="section-tag" style="justify-content:center;">8-Week Roadmap</div>
+      <h2>Your path from <em>beginner to pro.</em></h2>
+      <p>Every week is deliberate. Every session builds on the last. This is the exact sequence that takes you from never having opened DaVinci Resolve to editing like a professional.</p>
+    </div>
+
+    <div class="roadmap-spine">
+
+      <!-- Week 1 -->
+      <div class="roadmap-week reveal reveal-d1">
+        <div class="rw-content">
+          <div class="rw-week-label">Week 01</div>
+          <div class="rw-title">Foundation &amp; <em>Setup</em></div>
+          <div class="rw-desc">Install DaVinci Resolve, configure your system and project settings, and take a guided tour of every panel and page. You leave this week knowing where everything lives and why.</div>
+          <div class="rw-sessions">
+            <span class="rw-session-pill">3 Live Sessions</span>
+            <span class="rw-outcome">✦ Interface confident</span>
+          </div>
+        </div>
+        <div class="rw-spine">
+          <div class="rw-node">W1</div>
+        </div>
+        <div class="rw-empty"></div>
+      </div>
+
+      <!-- Week 2 -->
+      <div class="roadmap-week reveal reveal-d2">
+        <div class="rw-empty"></div>
+        <div class="rw-spine">
+          <div class="rw-node">W2</div>
+        </div>
+        <div class="rw-content">
+          <div class="rw-week-label">Week 02</div>
+          <div class="rw-title">First <em>Real Edit</em></div>
+          <div class="rw-desc">The Cut page for fast assembly, the Edit page for precision. Insert, overwrite, ripple and roll edits. You build your very first proper sequence from raw footage and make it feel intentional.</div>
+          <div class="rw-sessions">
+            <span class="rw-session-pill">3 Live Sessions</span>
+            <span class="rw-outcome">✦ First cut complete</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Milestone -->
+      <div class="roadmap-milestone reveal"><span>Foundation Complete</span></div>
+
+      <!-- Week 3 -->
+      <div class="roadmap-week reveal reveal-d1">
+        <div class="rw-content">
+          <div class="rw-week-label">Week 03</div>
+          <div class="rw-title">Editing <em>Principles</em></div>
+          <div class="rw-desc">Why you cut, not just how. Rhythm, pacing, cutting on action, match cuts, J-cuts and L-cuts. This is the week that separates editors from people who just press buttons.</div>
+          <div class="rw-sessions">
+            <span class="rw-session-pill">3 Live Sessions</span>
+            <span class="rw-outcome">✦ Story instinct sharpened</span>
+          </div>
+        </div>
+        <div class="rw-spine">
+          <div class="rw-node">W3</div>
+        </div>
+        <div class="rw-empty"></div>
+      </div>
+
+      <!-- Week 4 -->
+      <div class="roadmap-week reveal reveal-d2">
+        <div class="rw-empty"></div>
+        <div class="rw-spine">
+          <div class="rw-node">W4</div>
+        </div>
+        <div class="rw-content">
+          <div class="rw-week-label">Week 04</div>
+          <div class="rw-title">Color Grading <em>Part I</em></div>
+          <div class="rw-desc">Color theory, the Color page layout, scopes (waveform, vectorscope, parade), primary corrections, and lift/gamma/gain wheels. You learn to read an image — not just make it look nice.</div>
+          <div class="rw-sessions">
+            <span class="rw-session-pill">3 Live Sessions</span>
+            <span class="rw-outcome">✦ Primary grade mastered</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Milestone -->
+      <div class="roadmap-milestone reveal"><span>Core Skills Unlocked</span></div>
+
+      <!-- Week 5 -->
+      <div class="roadmap-week reveal reveal-d1">
+        <div class="rw-content">
+          <div class="rw-week-label">Week 05</div>
+          <div class="rw-title">Color Grading <em>Part II</em></div>
+          <div class="rw-desc">Secondary corrections, qualifiers, power windows, tracking, and building a complete cinematic look from scratch. You apply a full grade to a real clip — your own signature style begins here.</div>
+          <div class="rw-sessions">
+            <span class="rw-session-pill">3 Live Sessions</span>
+            <span class="rw-outcome">✦ Full cinematic grade applied</span>
+          </div>
+        </div>
+        <div class="rw-spine">
+          <div class="rw-node">W5</div>
+        </div>
+        <div class="rw-empty"></div>
+      </div>
+
+      <!-- Week 6 -->
+      <div class="roadmap-week reveal reveal-d2">
+        <div class="rw-empty"></div>
+        <div class="rw-spine">
+          <div class="rw-node">W6</div>
+        </div>
+        <div class="rw-content">
+          <div class="rw-week-label">Week 06</div>
+          <div class="rw-title">Audio &amp; <em>Fairlight</em></div>
+          <div class="rw-desc">Sync audio, navigate the Fairlight page, build a proper mix with EQ and compression, layer ambient sound and music. Your sequences will sound as professional as they look.</div>
+          <div class="rw-sessions">
+            <span class="rw-session-pill">3 Live Sessions</span>
+            <span class="rw-outcome">✦ Professional mix built</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Milestone -->
+      <div class="roadmap-milestone reveal"><span>Advanced Territory</span></div>
+
+      <!-- Week 7 -->
+      <div class="roadmap-week reveal reveal-d1">
+        <div class="rw-content">
+          <div class="rw-week-label">Week 07</div>
+          <div class="rw-title">Fusion &amp; <em>Motion Graphics</em></div>
+          <div class="rw-desc">Enter the Fusion compositor — title animations, kinetic typography, lower thirds, and basic compositing. The work you produce this week will look like it came out of a film studio.</div>
+          <div class="rw-sessions">
+            <span class="rw-session-pill">3 Live Sessions</span>
+            <span class="rw-outcome">✦ Motion graphics built</span>
+          </div>
+        </div>
+        <div class="rw-spine">
+          <div class="rw-node">W7</div>
+        </div>
+        <div class="rw-empty"></div>
+      </div>
+
+      <!-- Week 8 -->
+      <div class="roadmap-week reveal reveal-d2">
+        <div class="rw-empty"></div>
+        <div class="rw-spine">
+          <div class="rw-node">W8</div>
+        </div>
+        <div class="rw-content">
+          <div class="rw-week-label">Week 08</div>
+          <div class="rw-title">Full Project &amp; <em>Delivery</em></div>
+          <div class="rw-desc">Put everything together. You receive raw footage and edit a complete short film — cut, color, audio, titles — from scratch, with live instructor guidance. Final session covers export for every platform.</div>
+          <div class="rw-sessions">
+            <span class="rw-session-pill">3 Live Sessions</span>
+            <span class="rw-outcome">✦ Short film complete</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- End node -->
+      <div class="roadmap-end reveal">
+        <div class="roadmap-end-node">✦</div>
+        <p>You are now a video editor.</p>
+        <small>From zero to cinematic — in 8 weeks</small>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ HOW IT WORKS ══ -->
+  <section class="how-it-works" id="how-it-works">
+    <div class="section-header reveal" style="text-align:center; max-width:600px; margin: 0 auto 0;">
+      <div class="section-tag" style="justify-content:center;">How It Works</div>
+      <h2 class="section-title">Live classes. <em>Real learning.</em></h2>
+      <p class="section-sub" style="margin: 16px auto 0;">Every session is taught live online — you show up, ask questions in real time, and a recording is made available to you right after class ends.</p>
+    </div>
+    <div class="hiw-grid">
+      <div class="hiw-card reveal reveal-d1">
+        <div class="hiw-step">01</div>
+        <div class="hiw-tag">Live Online</div>
+        <h3>Attend Live Classes</h3>
+        <p>Join three live sessions per week via video call. Watch the instructor edit in real time, ask questions, and get instant feedback — just like being in a classroom.</p>
+      </div>
+      <div class="hiw-card reveal reveal-d2">
+        <div class="hiw-step">02</div>
+        <div class="hiw-tag">Recorded</div>
+        <h3>Watch the Recording</h3>
+        <p>Missed a class or want to revisit a technique? Every session is recorded and made available to you after class. Rewatch as many times as you need.</p>
+      </div>
+      <div class="hiw-card reveal reveal-d3">
+        <div class="hiw-step">03</div>
+        <div class="hiw-tag">Practice</div>
+        <h3>Edit &amp; Apply</h3>
+        <p>Between classes, practise with the provided project files and footage. Bring your edits to the next session for feedback and guidance from your instructor.</p>
+      </div>
+    </div>
+  </section>
 
   <!-- ══ LEARN SECTION ══ -->
   <section class="learn" id="learn">
     <div class="section-header reveal">
       <div class="section-tag">Module Overview</div>
       <h2 class="section-title">What you'll <em>learn</em></h2>
-      <p class="section-sub">Six domains of craft, taught in sequence. Each one builds on the last. By the end, you
-        speak the language of professional editors.</p>
+      <p class="section-sub">Six domains of craft, taught across live sessions in sequence. Each one builds on the last. By the end, you speak the language of professional editors.</p>
     </div>
     <div class="bubble-grid">
       <div class="bubble reveal reveal-d1" style="--bob-delay:0s">
@@ -1799,8 +2374,8 @@
         <div>
           <div class="section-tag">Full Curriculum</div>
           <h2>Every module, <em>mapped.</em></h2>
-          <p>Eight modules in deliberate sequence — each one preparing you for the next.</p>
-          <div class="curriculum-total">8 Modules · 40+ Lessons · 12+ Hours</div>
+          <p>Eight modules across ~24 live sessions — each one building on the last.</p>
+          <div class="curriculum-total">8 Modules · ~24 Live Sessions · 2 Months</div>
         </div>
         <div class="carousel-controls">
           <button class="carousel-btn" id="prevBtn" aria-label="Previous">
@@ -1823,80 +2398,64 @@
             <div class="module-card-num">01</div>
             <div class="module-card-head"><span class="module-tag">Foundation</span></div>
             <h4>Getting Started &amp; Setup</h4>
-            <p>Install DaVinci Resolve, configure your system, set up your first project, and learn the key
-              preferences
-              that affect every edit you'll ever make.</p>
-            <div class="module-meta">5 Lessons · 45 min</div>
+            <p>Install DaVinci Resolve, configure your system, set up your first project, and learn the key preferences that affect every edit you'll ever make.</p>
+            <div class="module-meta">Live Sessions · Week 1</div>
           </div>
 
           <div class="module-card">
             <div class="module-card-num">02</div>
             <div class="module-card-head"><span class="module-tag">Foundation</span></div>
             <h4>Interface Deep Dive</h4>
-            <p>Master every panel and page — Cut, Edit, Color, Fairlight, Deliver. Understand how they connect and
-              when
-              to
-              use each one for maximum efficiency.</p>
-            <div class="module-meta">6 Lessons · 1 hr 10 min</div>
+            <p>Master every panel and page — Cut, Edit, Color, Fairlight, Deliver. Understand how they connect and when to use each one for maximum efficiency.</p>
+            <div class="module-meta">Live Sessions · Week 1–2</div>
           </div>
 
           <div class="module-card">
             <div class="module-card-num">03</div>
             <div class="module-card-head"><span class="module-tag">Core</span></div>
             <h4>The Edit Page — Fundamentals</h4>
-            <p>Build your first real sequence. Learn insert, overwrite, ripple, and roll edits. Cut on action,
-              establish
-              rhythm, and construct scenes that breathe.</p>
-            <div class="module-meta">7 Lessons · 1 hr 30 min</div>
+            <p>Build your first real sequence. Learn insert, overwrite, ripple, and roll edits. Cut on action, establish rhythm, and construct scenes that breathe.</p>
+            <div class="module-meta">Live Sessions · Week 2–3</div>
           </div>
 
           <div class="module-card">
             <div class="module-card-num">04</div>
             <div class="module-card-head"><span class="module-tag">Core</span></div>
             <h4>Color Science &amp; Grading</h4>
-            <p>Primary and secondary corrections, lift-gamma-gain, curves, qualifiers, power windows, and building a
-              signature cinematic look from scratch.</p>
-            <div class="module-meta">8 Lessons · 2 hr</div>
+            <p>Primary and secondary corrections, lift-gamma-gain, curves, qualifiers, power windows, and building a signature cinematic look from scratch.</p>
+            <div class="module-meta">Live Sessions · Week 3–4</div>
           </div>
 
           <div class="module-card">
             <div class="module-card-num">05</div>
             <div class="module-card-head"><span class="module-tag">Core</span></div>
             <h4>Audio &amp; Fairlight Essentials</h4>
-            <p>Sync audio, navigate Fairlight, build a proper mix, add ambient sound and music — creating sequences
-              that
-              sound as professional as they look.</p>
-            <div class="module-meta">5 Lessons · 1 hr</div>
+            <p>Sync audio, navigate Fairlight, build a proper mix, add ambient sound and music — creating sequences that sound as professional as they look.</p>
+            <div class="module-meta">Live Sessions · Week 5</div>
           </div>
 
           <div class="module-card">
             <div class="module-card-num">06</div>
             <div class="module-card-head"><span class="module-tag">Advanced</span></div>
             <h4>Fusion &amp; Motion Graphics</h4>
-            <p>Enter the Fusion compositor. Build title animations, kinetic typography, lower thirds, and motion
-              graphics
-              that make your work look like a film studio made it.</p>
-            <div class="module-meta">6 Lessons · 1 hr 45 min</div>
+            <p>Enter the Fusion compositor. Build title animations, kinetic typography, lower thirds, and motion graphics that make your work look like a film studio made it.</p>
+            <div class="module-meta">Live Sessions · Week 6</div>
           </div>
 
           <div class="module-card">
             <div class="module-card-num">07</div>
             <div class="module-card-head"><span class="module-tag">Final</span></div>
             <h4>Full Project — Edit a Short Film</h4>
-            <p>Put every skill together. You receive raw footage and build a complete short film — editing, color,
-              audio,
-              and titles — from start to finish.</p>
-            <div class="module-meta">4 Lessons · 2 hr</div>
+            <p>Put every skill together. You receive raw footage and build a complete short film — editing, color, audio, and titles — from start to finish, with live instructor guidance.</p>
+            <div class="module-meta">Live Sessions · Week 7</div>
           </div>
 
           <div class="module-card">
             <div class="module-card-num">08</div>
             <div class="module-card-head"><span class="module-tag">Bonus</span></div>
             <h4>Export, Deliver &amp; Go Live</h4>
-            <p>Render for YouTube, Instagram, cinema, and client delivery. Understand codecs, bit depth, color spaces,
-              and
-              frame rates so your work always looks right.</p>
-            <div class="module-meta">4 Lessons · 45 min</div>
+            <p>Render for YouTube, Instagram, cinema, and client delivery. Understand codecs, bit depth, color spaces, and frame rates so your work always looks right.</p>
+            <div class="module-meta">Live Sessions · Week 8</div>
           </div>
 
         </div>
@@ -1920,21 +2479,17 @@
         <div class="who-card reveal reveal-d1">
           <div class="who-num">01</div>
           <h3>The Complete Beginner</h3>
-          <p>You've never opened DaVinci Resolve. Maybe you've never edited video at all. You have a story to tell and
-            no
-            idea how to tell it technically. This is where you start.</p>
+          <p>You've never opened DaVinci Resolve. Maybe you've never edited video at all. You have a story to tell and no idea how to tell it technically. This is where you start — with a live instructor by your side.</p>
         </div>
         <div class="who-card reveal reveal-d2">
           <div class="who-num">02</div>
           <h3>The Self-Taught Switcher</h3>
-          <p>You've used Premiere or iMovie. You know the basics. But you sense there's a deeper craft — better color,
-            cleaner audio, more intentional storytelling. DaVinci unlocks it.</p>
+          <p>You've used Premiere or iMovie. You know the basics. But you sense there's a deeper craft — better color, cleaner audio, more intentional storytelling. Live classes let you ask the questions you've always had.</p>
         </div>
         <div class="who-card reveal reveal-d3">
           <div class="who-num">03</div>
           <h3>The Creator Going Pro</h3>
-          <p>You post content. You want it to look more cinematic. Your edits feel generic. You're ready to develop a
-            distinct visual identity and editing style that people recognize instantly.</p>
+          <p>You post content. You want it to look more cinematic. Your edits feel generic. You're ready to develop a distinct visual identity — and you want real-time feedback from someone who actually edits.</p>
         </div>
       </div>
     </section>
@@ -1947,49 +2502,34 @@
       </div>
       <div class="get-grid">
         <div class="get-item reveal reveal-d1">
-          <div class="get-check"><svg viewBox="0 0 24 24">
-              <polyline points="20 6 9 17 4 12" />
-            </svg></div>
-          <h4>40+ Video Lessons</h4>
-          <p>Structured, paced, and shot with production quality that matches the craft being taught.</p>
+          <div class="get-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" /></svg></div>
+          <h4>~24 Live Sessions</h4>
+          <p>Three interactive live classes per week for two months. Ask questions, get feedback, learn alongside other students in real time.</p>
         </div>
         <div class="get-item reveal reveal-d2">
-          <div class="get-check"><svg viewBox="0 0 24 24">
-              <polyline points="20 6 9 17 4 12" />
-            </svg></div>
-          <h4>Project Files</h4>
-          <p>Raw footage, project timelines, and LUTs — so you can follow along with the exact same material.</p>
+          <div class="get-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" /></svg></div>
+          <h4>Class Recordings</h4>
+          <p>Every live session is recorded. Miss a class? Need to rewatch a technique? All recordings are made available to you after each session ends.</p>
         </div>
         <div class="get-item reveal reveal-d3">
-          <div class="get-check"><svg viewBox="0 0 24 24">
-              <polyline points="20 6 9 17 4 12" />
-            </svg></div>
-          <h4>Private Community</h4>
-          <p>Access to the StoryFrame community — share your edits, get feedback, and connect with fellow students.</p>
+          <div class="get-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" /></svg></div>
+          <h4>Project Files</h4>
+          <p>Raw footage, project timelines, and LUTs — so you can follow along with the exact same material used in class.</p>
         </div>
         <div class="get-item reveal reveal-d4">
-          <div class="get-check"><svg viewBox="0 0 24 24">
-              <polyline points="20 6 9 17 4 12" />
-            </svg></div>
-          <h4>LUT Pack</h4>
-          <p>Exclusive cinematic LUTs developed specifically for StoryFrame Academy students to use in their own work.
-          </p>
+          <div class="get-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" /></svg></div>
+          <h4>Private Community</h4>
+          <p>Access to the StoryFrame community — share your edits, get feedback, and connect with fellow students between sessions.</p>
         </div>
         <div class="get-item reveal reveal-d5">
-          <div class="get-check"><svg viewBox="0 0 24 24">
-              <polyline points="20 6 9 17 4 12" />
-            </svg></div>
-          <h4>Lifetime Access</h4>
-          <p>Pay once. The course is yours forever. Every future update, every added lesson — included at no extra cost.
-          </p>
+          <div class="get-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" /></svg></div>
+          <h4>LUT Pack</h4>
+          <p>Exclusive cinematic LUTs developed specifically for StoryFrame Academy students to use in their own work.</p>
         </div>
         <div class="get-item reveal reveal-d6">
-          <div class="get-check"><svg viewBox="0 0 24 24">
-              <polyline points="20 6 9 17 4 12" />
-            </svg></div>
+          <div class="get-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" /></svg></div>
           <h4>Certificate of Completion</h4>
-          <p>Shareable proof that you completed StoryFrame Academy — for your portfolio, LinkedIn, or client pitches.
-          </p>
+          <p>Shareable proof that you completed StoryFrame Academy — for your portfolio, LinkedIn, or client pitches.</p>
         </div>
       </div>
     </section>
@@ -2010,13 +2550,9 @@
         <div class="instructor-bio reveal reveal-d2">
           <div class="section-tag">The Instructor</div>
           <h2>Taught by someone who <em>actually edits.</em></h2>
-          <p>This course was built by a working video editor with years of experience across documentary, commercial,
-            and
-            narrative projects. Not a course creator who happens to edit — an editor who happens to teach.</p>
-          <p>The goal was never to make a course. The goal was to teach the way I wish I'd been taught — focused on
-            craft,
-            judgment, and aesthetic instinct rather than button-clicking tutorials.</p>
-          <p>Every lesson exists because it was necessary. Nothing is here for runtime padding.</p>
+          <p>This course is taught live by a working video editor with years of experience across documentary, commercial, and narrative projects. Not a course creator who happens to edit — an editor who happens to teach.</p>
+          <p>Every live session is designed to teach the way he wished he'd been taught — focused on craft, judgment, and aesthetic instinct rather than button-clicking tutorials. You'll be learning directly from him, in real time, with the ability to ask questions and get answers on the spot.</p>
+          <p>Every lesson exists because it was necessary. Nothing is here for padding.</p>
           <div class="instructor-creds">
             <span class="cred">DaVinci Resolve Certified</span>
             <span class="cred">Documentary Editing</span>
@@ -2031,22 +2567,22 @@
     <section class="pricing" id="pricing">
       <div class="pricing-glow"></div>
       <div class="pricing-inner">
-        <div class="section-tag reveal">One Price · Lifetime Access</div>
+        <div class="section-tag reveal">One Price · Full Course Access</div>
         <h2 class="reveal"><em>Simple</em> pricing.</h2>
-        <p class="reveal">No subscriptions. No upsells. One payment, and the course is yours — now and forever.</p>
+        <p class="reveal">No subscriptions. No upsells. One payment covers all live sessions, all recordings, and everything included — now and after the course ends.</p>
         <div class="price-card reveal">
-          <div class="price-tag"><sup>৳</sup>999</div>
-          <div class="price-period">One-time · Lifetime Access</div>
+          <div class="price-tag"><sup>৳</sup>499</div>
+          <div class="price-period">One-time · Full Course Access</div>
           <ul class="price-includes">
-            <li>40+ structured video lessons</li>
+            <li>~24 live online classes (3× per week, 2 months)</li>
+            <li>Recordings of every session, available after class</li>
             <li>Complete project source files &amp; footage</li>
             <li>Exclusive StoryFrame LUT pack</li>
             <li>Private student community access</li>
             <li>Certificate of completion</li>
-            <li>All future course updates</li>
-            <li>Lifetime access — yours forever</li>
+            <li>Direct access to instructor during live sessions</li>
           </ul>
-          <a href="https://wa.me/+8801305321620" class="btn-primary" target="_blank"><span>Enroll Now — ৳999</span></a>
+          <a href="https://wa.me/+8801305321620?text=Hi%2C+I%27d+like+to+enroll+in+StoryFrame+Academy+%28DaVinci+Resolve+Course%29.+Please+share+the+enrollment+details+%F0%9F%99%8F" class="btn-primary" target="_blank"><span>Enroll Now — ৳499</span></a>
           <div class="pricing-guarantee">30-Day Money-Back Guarantee</div>
         </div>
       </div>
@@ -2067,7 +2603,7 @@
               <li><a href="#learn">Curriculum</a></li>
               <li><a href="#who">Who It's For</a></li>
               <li><a href="#instructor">Instructor</a></li>
-              <li><a href="https://wa.me/+8801305321620" target="_blank">Enroll</a></li>
+              <li><a href="https://wa.me/+8801305321620?text=Hi%2C+I%27d+like+to+enroll+in+StoryFrame+Academy+%28DaVinci+Resolve+Course%29.+Please+share+the+enrollment+details+%F0%9F%99%8F" target="_blank">Enroll</a></li>
             </ul>
           </div>
           <div class="footer-col">
@@ -2090,127 +2626,102 @@
       </div>
       <div class="footer-bottom">
         <p>© 2026 StoryFrame Labs. All rights reserved.</p>
-        <p>StoryFrame Academy · DaVinci Resolve Course</p>
+        <p>StoryFrame Academy · Live DaVinci Resolve Course</p>
       </div>
     </footer>
 
-    <script>
-      // ══ CUSTOM CURSOR ══
-      const cursor = document.getElementById('cursor');
-      const ring = document.getElementById('cursorRing');
-      let mx = 0, my = 0, rx = 0, ry = 0;
+  <script>
+    // ══ CUSTOM CURSOR ══
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
 
-      document.addEventListener('mousemove', e => {
-        mx = e.clientX; my = e.clientY;
-        if (cursor) {
-          cursor.style.left = mx + 'px';
-          cursor.style.top = my + 'px';
-        }
-      });
-
-      function animRing() {
-        rx += (mx - rx) * .15;
-        ry += (my - ry) * .15;
-        if (ring) {
-          ring.style.left = rx + 'px';
-          ring.style.top = ry + 'px';
-        }
-        requestAnimationFrame(animRing);
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      if (cursor) {
+        cursor.style.left = mx + 'px';
+        cursor.style.top = my + 'px';
       }
-      animRing();
+    });
 
-      // Manage hover states
-      const hoverables = 'a, button, .carousel-btn, .nav-cta';
-      document.addEventListener('mouseover', e => {
-        if (e.target.closest(hoverables)) {
-          document.body.classList.add('is-hovering');
-        }
-      });
-      document.addEventListener('mouseout', e => {
-        if (e.target.closest(hoverables)) {
-          document.body.classList.remove('is-hovering');
-        }
-      });
-
-      // ══ SCROLL REVEAL ══
-      const obs = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            e.target.classList.add('visible');
-            obs.unobserve(e.target);
-          }
-        });
-      }, { threshold: 0.12 });
-
-      document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-
-      // ══ CURRICULUM HORIZONTAL CAROUSEL ══
-      const track = document.getElementById('moduleTrack');
-      const prevBtn = document.getElementById('prevBtn');
-      const nextBtn = document.getElementById('nextBtn');
-      const fill = document.getElementById('progressFill');
-      const label = document.getElementById('progressLabel');
-      const TOTAL = track ? track.querySelectorAll('.module-card').length : 8;
-      const STEP = 340; // card width + gap
-
-      function updateProgress() {
-        if (!track) return;
-        const max = track.scrollWidth - track.clientWidth;
-        const pct = max > 0 ? (track.scrollLeft / max) * 100 : 0;
-        const index = Math.round((track.scrollLeft / max) * (TOTAL - 1)) + 1;
-        fill.style.width = pct + '%';
-        label.textContent = index + ' / ' + TOTAL;
-        if (prevBtn) prevBtn.disabled = track.scrollLeft <= 0;
-        if (nextBtn) nextBtn.disabled = track.scrollLeft >= max - 2;
+    function animRing() {
+      rx += (mx - rx) * .15;
+      ry += (my - ry) * .15;
+      if (ring) {
+        ring.style.left = rx + 'px';
+        ring.style.top = ry + 'px';
       }
+      requestAnimationFrame(animRing);
+    }
+    animRing();
 
-      if (prevBtn) prevBtn.addEventListener('click', () => { track.scrollLeft -= STEP; });
-      if (nextBtn) nextBtn.addEventListener('click', () => { track.scrollLeft += STEP; });
-      if (track) track.addEventListener('scroll', updateProgress);
-      updateProgress();
+    // Hover states
+    const hoverables = 'a, button, .carousel-btn, .nav-cta';
+    document.addEventListener('mouseover', e => {
+      if (e.target.closest(hoverables)) document.body.classList.add('is-hovering');
+    });
+    document.addEventListener('mouseout', e => {
+      if (e.target.closest(hoverables)) document.body.classList.remove('is-hovering');
+    });
 
-      // Drag to scroll
-      if (track) {
-        let isDown = false, startX, scrollStart;
-        track.addEventListener('mousedown', e => { isDown = true; startX = e.pageX; scrollStart = track.scrollLeft; track.classList.add('dragging'); });
-        track.addEventListener('mouseleave', () => { isDown = false; track.classList.remove('dragging'); });
-        track.addEventListener('mouseup', () => { isDown = false; track.classList.remove('dragging'); });
-        track.addEventListener('mousemove', e => { if (!isDown) return; e.preventDefault(); track.scrollLeft = scrollStart - (e.pageX - startX); });
-      }
-
-      // ══ CONSTELLATION ANIMATION ══
-      window.addEventListener('load', () => {
-        const nodes = document.querySelectorAll('.hero-constellation .c-node');
-        const lines = document.querySelectorAll('.hero-constellation .c-line');
-
-        nodes.forEach((n, i) =>
-          setTimeout(() => { n.style.opacity = '1'; }, i * 180)
-        );
-        lines.forEach((l, i) =>
-          setTimeout(() => { l.style.opacity = '1'; }, 600 + i * 120)
-        );
+    // ══ SCROLL REVEAL ══
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
       });
-    </script>
-    <script type="text/javascript">
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    // ══ CURRICULUM CAROUSEL ══
+    const track = document.getElementById('moduleTrack');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const fill = document.getElementById('progressFill');
+    const label = document.getElementById('progressLabel');
+    const TOTAL = track ? track.querySelectorAll('.module-card').length : 8;
+    const STEP = 340;
+
+    function updateProgress() {
+      if (!track) return;
+      const max = track.scrollWidth - track.clientWidth;
+      const pct = max > 0 ? (track.scrollLeft / max) * 100 : 0;
+      const index = Math.round((track.scrollLeft / max) * (TOTAL - 1)) + 1;
+      fill.style.width = pct + '%';
+      label.textContent = index + ' / ' + TOTAL;
+      if (prevBtn) prevBtn.disabled = track.scrollLeft <= 0;
+      if (nextBtn) nextBtn.disabled = track.scrollLeft >= max - 2;
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', () => { track.scrollLeft -= STEP; });
+    if (nextBtn) nextBtn.addEventListener('click', () => { track.scrollLeft += STEP; });
+    if (track) track.addEventListener('scroll', updateProgress);
+    updateProgress();
+
+    // Drag to scroll
+    if (track) {
+      let isDown = false, startX, scrollStart;
+      track.addEventListener('mousedown', e => { isDown = true; startX = e.pageX; scrollStart = track.scrollLeft; track.classList.add('dragging'); });
+      track.addEventListener('mouseleave', () => { isDown = false; track.classList.remove('dragging'); });
+      track.addEventListener('mouseup', () => { isDown = false; track.classList.remove('dragging'); });
+      track.addEventListener('mousemove', e => { if (!isDown) return; e.preventDefault(); track.scrollLeft = scrollStart - (e.pageX - startX); });
+    }
+
+    // ══ CONSTELLATION ══
+    window.addEventListener('load', () => {
+      const nodes = document.querySelectorAll('.hero-constellation .c-node');
+      const lines = document.querySelectorAll('.hero-constellation .c-line');
+      nodes.forEach((n, i) => setTimeout(() => { n.style.opacity = '1'; }, i * 180));
+      lines.forEach((l, i) => setTimeout(() => { l.style.opacity = '1'; }, 600 + i * 120));
+    });
+  </script>
+  <script type="text/javascript">
     (function (l) {
       if (l.search[1] === "/") {
-        var decoded = l.search
-          .slice(1)
-          .split("&")
-          .map(function (s) {
-            return s.replace(/~and~/g, "&");
-          })
-          .join("?");
-        window.history.replaceState(
-          null,
-          null,
-          l.pathname.slice(0, -1) + decoded + l.hash
-        );
+        var decoded = l.search.slice(1).split("&").map(function (s) { return s.replace(/~and~/g, "&"); }).join("?");
+        window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
       }
     })(window.location);
   </script>
 </body>
-
-
 </html>
-
