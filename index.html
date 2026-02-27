@@ -155,6 +155,33 @@
       to { opacity: 1; }
     }
 
+    @keyframes discountShine {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+
+    @keyframes discountPop {
+      0%   { transform: scale(1) rotate(-2deg); }
+      30%  { transform: scale(1.12) rotate(-2deg); }
+      60%  { transform: scale(0.97) rotate(-2deg); }
+      100% { transform: scale(1.04) rotate(-2deg); }
+    }
+
+    @keyframes strikeGrow {
+      from { width: 0%; }
+      to   { width: 108%; }
+    }
+
+    @keyframes savingsFloat {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-5px); }
+    }
+
+    @keyframes sparkle {
+      0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+      50%       { opacity: 1; transform: scale(1) rotate(180deg); }
+    }
+
     .anim-rise {
       animation: riseUp .8s cubic-bezier(.16, 1, .3, 1) both;
     }
@@ -1408,12 +1435,13 @@
 
     .price-card {
       position: relative;
-      overflow: hidden;
+      overflow: visible;
       max-width: 520px;
       margin: 0 auto;
+      margin-top: 24px;
       background: var(--abyss);
       border: 1px solid var(--line);
-      padding: 56px 52px;
+      padding: 56px 52px 56px;
       text-align: center;
     }
 
@@ -1816,6 +1844,556 @@
     }
 
     /* ══════════════════════════════
+       DISCOUNT / PRICING ELEMENTS
+    ══════════════════════════════ */
+
+    /* Discount badge — floats top-right of price card */
+    .discount-badge {
+      position: absolute;
+      top: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #ff4d4d, #ff1a1a);
+      color: #fff;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 10px 24px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      animation: discountPop .6s cubic-bezier(.16,1,.3,1) .4s both, badgePulse 2s ease-in-out 1s infinite;
+      z-index: 10;
+      box-shadow: 0 4px 24px rgba(255,50,50,0.4);
+    }
+
+    /* Shimmering shine sweep across badge */
+    .discount-badge::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        105deg,
+        transparent 30%,
+        rgba(255,255,255,0.35) 50%,
+        transparent 70%
+      );
+      background-size: 200% 100%;
+      animation: discountShine 2.4s ease-in-out infinite;
+    }
+
+    .discount-badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #fff;
+      animation: livePulse 1s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+
+    /* Original price with animated strikethrough */
+    .price-original-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 2px;
+    }
+
+    .price-original {
+      font-family: 'Cormorant', serif;
+      font-size: 36px;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--dim);
+      position: relative;
+      display: inline-block;
+    }
+
+    /* The animated red strikethrough line */
+    .price-original::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -4%;
+      width: 0%;
+      height: 2px;
+      background: #ff4d4d;
+      transform: translateY(-50%) rotate(-8deg);
+      animation: strikeGrow .6s cubic-bezier(.16,1,.3,1) .8s forwards;
+    }
+
+    /* "58% OFF" pill next to the original price */
+    .price-off-pill {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #ff6b6b;
+      border: 1px solid rgba(255, 77, 77, 0.35);
+      background: rgba(255, 77, 77, 0.08);
+      padding: 4px 10px;
+    }
+
+    /* ══════════════════════════════
+       PRICING DISCOUNT ANIMATIONS
+    ══════════════════════════════ */
+
+    @keyframes strikethrough {
+      from { width: 0%; }
+      to   { width: 110%; }
+    }
+
+    @keyframes savingsFloat {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-5px); }
+    }
+
+    @keyframes sparkle {
+      0%, 100% { opacity: 0; transform: scale(0.5) rotate(0deg); }
+      50%       { opacity: 1; transform: scale(1.2) rotate(180deg); }
+    }
+
+    @keyframes badgePulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.4); }
+      50%       { box-shadow: 0 0 0 8px rgba(255, 77, 77, 0); }
+    }
+
+    @keyframes countdownTick {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.5; }
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position:  200% center; }
+    }
+
+    /* ── Original price with animated strikethrough ── */
+    .price-original-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 8px;
+    }
+
+    .price-original {
+      font-family: 'Cormorant', serif;
+      font-size: 48px;
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(232, 248, 245, 0.25);
+      line-height: 1;
+      position: relative;
+      display: inline-block;
+    }
+
+    /* The red line that draws itself across ৳1199 */
+    .price-original::after {
+      content: '';
+      position: absolute;
+      left: -5%;
+      top: 52%;
+      height: 2px;
+      width: 0%;
+      background: #ff4444;
+      transform: rotate(-6deg);
+      animation: strikethrough 0.6s cubic-bezier(.16,1,.3,1) 0.8s forwards;
+    }
+
+    /* 58% OFF pill next to the original price */
+    .price-off-pill {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #ff6b6b;
+      border: 1px solid rgba(255, 77, 77, 0.35);
+      background: rgba(255, 77, 77, 0.08);
+      padding: 4px 10px;
+      align-self: center;
+    }
+
+    /* ── The big ৳499 price ── */
+    .price-tag {
+      font-family: 'Cormorant', serif;
+      font-size: 112px;
+      font-weight: 700;
+      font-style: italic;
+      color: var(--jade);
+      line-height: 1;
+      margin-bottom: 2px;
+      padding-bottom: 4px;
+      /* Shimmer sweep animation */
+      background: linear-gradient(
+        90deg,
+        var(--jade) 0%,
+        #fff 40%,
+        var(--jade) 60%,
+        var(--jade) 100%
+      );
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 3s linear 1.2s infinite;
+    }
+
+    .price-tag sup {
+      font-size: 36px;
+      font-weight: 300;
+      vertical-align: top;
+      line-height: 1.4;
+      margin-right: 4px;
+    }
+
+    /* ── "You save ৳700" floating pill ── */
+    .price-savings {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(62, 207, 178, 0.08);
+      border: 1px solid rgba(62, 207, 178, 0.25);
+      padding: 10px 20px;
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--jade);
+      animation: savingsFloat 3s ease-in-out infinite;
+      position: relative;
+    }
+
+    .price-savings .spark {
+      position: absolute;
+      color: var(--jade);
+      font-size: 10px;
+      animation: sparkle 2s ease-in-out infinite;
+    }
+
+    .price-savings .spark:nth-child(1) { top: -10px; left: 12px;  animation-delay: 0s; }
+    .price-savings .spark:nth-child(2) { top: -10px; right: 12px; animation-delay: .5s; }
+    .price-savings .spark:nth-child(3) { bottom: -10px; left: 40px; animation-delay: 1s; }
+
+    /* Hero button discount hint */
+    .btn-discount-hint {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--frost);
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-discount-hint s {
+      color: #ff5555;
+      text-decoration: line-through;
+      text-decoration-thickness: 2px;
+      opacity: 1;
+    }
+
+    .btn-discount-hint .save-highlight {
+      background: rgba(62, 207, 178, 0.15);
+      border: 1px solid rgba(62, 207, 178, 0.35);
+      color: var(--jade);
+      padding: 2px 8px;
+      font-size: 9px;
+    }
+
+    /* ══════════════════════════════
+       STICKY COUNTDOWN BANNER
+    ══════════════════════════════ */
+
+    @keyframes bannerSlideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+
+    @keyframes seatFlicker {
+      0%, 100% { color: #ff6b6b; }
+      50%       { color: #ff2222; }
+    }
+
+    @keyframes digitFlip {
+      0%   { transform: translateY(0);    opacity: 1; }
+      45%  { transform: translateY(-12px); opacity: 0; }
+      55%  { transform: translateY(12px);  opacity: 0; }
+      100% { transform: translateY(0);    opacity: 1; }
+    }
+
+    .countdown-banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      background: #0a0a0a;
+      border-bottom: 1px solid rgba(255, 77, 77, 0.3);
+      padding: 10px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      flex-wrap: wrap;
+      transform: translateY(-100%);
+      animation: bannerSlideDown .6s cubic-bezier(.16,1,.3,1) 1.5s forwards;
+    }
+
+    /* Push nav down when banner is visible */
+    .banner-visible nav {
+      top: 44px;
+    }
+
+    .banner-visible .hero {
+      padding-top: 164px;
+    }
+
+    .cb-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      white-space: nowrap;
+    }
+
+    .cb-timer {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .cb-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1px;
+    }
+
+    .cb-digit {
+      font-family: 'Cormorant', serif;
+      font-size: 26px;
+      font-weight: 700;
+      font-style: italic;
+      color: #fff;
+      line-height: 1;
+      min-width: 32px;
+      text-align: center;
+      transition: all .15s;
+    }
+
+    .cb-digit.flipping {
+      animation: digitFlip .25s ease-in-out;
+    }
+
+    .cb-unit-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 7px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+
+    .cb-sep {
+      font-family: 'Cormorant', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: rgba(255,77,77,0.5);
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .cb-divider {
+      width: 1px;
+      height: 28px;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .cb-seats {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      white-space: nowrap;
+    }
+
+    .cb-seats-num {
+      font-family: 'Cormorant', serif;
+      font-size: 22px;
+      font-weight: 700;
+      font-style: italic;
+      color: #ff6b6b;
+      animation: seatFlicker 2.5s ease-in-out infinite;
+      line-height: 1;
+    }
+
+    .cb-cta {
+      padding: 7px 18px;
+      background: #ff3333;
+      color: #fff;
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transition: background .2s;
+      cursor: none;
+    }
+
+    .cb-cta:hover {
+      background: #ff1111;
+    }
+
+    /* ── Pricing card countdown block ── */
+    .card-countdown {
+      margin-bottom: 28px;
+      padding: 20px 24px;
+      background: rgba(255, 40, 40, 0.05);
+      border: 1px solid rgba(255, 77, 77, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-countdown::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #ff4444, transparent);
+    }
+
+    .card-cd-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #ff6b6b;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .card-cd-label::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #ff4444;
+      animation: livePulse 1s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+
+    .card-cd-timer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .card-cd-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      min-width: 52px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,77,77,0.15);
+      padding: 10px 8px 8px;
+    }
+
+    .card-cd-digit {
+      font-family: 'Cormorant', serif;
+      font-size: 40px;
+      font-weight: 700;
+      font-style: italic;
+      color: #fff;
+      line-height: 1;
+      transition: all .15s;
+    }
+
+    .card-cd-digit.flipping {
+      animation: digitFlip .25s ease-in-out;
+    }
+
+    .card-cd-unit-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 7px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+
+    .card-cd-sep {
+      font-family: 'Cormorant', serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: rgba(255,77,77,0.4);
+      line-height: 1;
+      margin-bottom: 18px;
+    }
+
+    .card-cd-seats {
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+
+    .card-cd-seats-bar {
+      flex: 1;
+      max-width: 160px;
+      height: 3px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .card-cd-seats-fill {
+      height: 100%;
+      background: linear-gradient(to right, #ff4444, #ff8800);
+      border-radius: 2px;
+      transition: width 1s ease;
+    }
+
+    .card-cd-seats-num {
+      color: #ff6b6b;
+      font-weight: 700;
+      animation: seatFlicker 2.5s ease-in-out infinite;
+    }
+
+    @media (max-width: 768px) {
+      .countdown-banner {
+        padding: 8px 16px;
+        gap: 12px;
+      }
+      .cb-label { display: none; }
+      .cb-divider { display: none; }
+      .cb-digit { font-size: 20px; }
+    }
+
+    /* ══════════════════════════════
        FOOTER
     ══════════════════════════════ */
     footer {
@@ -2003,6 +2581,39 @@
     <a href="https://wa.me/+8801305321620?text=Hi%2C+I%27d+like+to+enroll+in+StoryFrame+Academy+%28DaVinci+Resolve+Course%29.+Please+share+the+enrollment+details+%F0%9F%99%8F" class="nav-cta" target="_blank">Enroll Now</a>
   </nav>
 
+  <!-- ══ STICKY COUNTDOWN BANNER ══ -->
+  <div class="countdown-banner" id="countdownBanner">
+    <span class="cb-label">⚡ Launch offer ends in</span>
+    <div class="cb-timer">
+      <div class="cb-unit">
+        <div class="cb-digit" id="b-days">00</div>
+        <div class="cb-unit-label">Days</div>
+      </div>
+      <div class="cb-sep">:</div>
+      <div class="cb-unit">
+        <div class="cb-digit" id="b-hours">00</div>
+        <div class="cb-unit-label">Hrs</div>
+      </div>
+      <div class="cb-sep">:</div>
+      <div class="cb-unit">
+        <div class="cb-digit" id="b-mins">00</div>
+        <div class="cb-unit-label">Min</div>
+      </div>
+      <div class="cb-sep">:</div>
+      <div class="cb-unit">
+        <div class="cb-digit" id="b-secs">00</div>
+        <div class="cb-unit-label">Sec</div>
+      </div>
+    </div>
+    <div class="cb-divider"></div>
+    <div class="cb-seats">
+      <span class="cb-seats-num" id="b-seats">7</span>
+      <span>seats left</span>
+    </div>
+    <div class="cb-divider"></div>
+    <a href="https://wa.me/+8801305321620?text=Hi%2C+I%27d+like+to+enroll+in+StoryFrame+Academy+%28DaVinci+Resolve+Course%29.+Please+share+the+enrollment+details+%F0%9F%99%8F" class="cb-cta" target="_blank">Grab Your Spot →</a>
+  </div>
+
   <!-- ══ HERO ══ -->
   <section class="hero" id="hero">
     <div class="hero-glow"></div>
@@ -2051,7 +2662,10 @@
         Three classes a week, over two months — taught live, with recordings available after every session.
       </p>
       <div class="hero-actions anim-rise d4">
-        <a href="https://wa.me/+8801305321620?text=Hi%2C+I%27d+like+to+enroll+in+StoryFrame+Academy+%28DaVinci+Resolve+Course%29.+Please+share+the+enrollment+details+%F0%9F%99%8F" class="btn-primary" target="_blank"><span>Enroll Today — ৳499</span></a>
+        <div>
+          <a href="https://wa.me/+8801305321620?text=Hi%2C+I%27d+like+to+enroll+in+StoryFrame+Academy+%28DaVinci+Resolve+Course%29.+Please+share+the+enrollment+details+%F0%9F%99%8F" class="btn-primary" target="_blank"><span>Enroll Today — ৳499</span></a>
+          <div class="btn-discount-hint">Was <s>৳1199</s> · Now ৳499 <span class="save-highlight">Save ৳700</span></div>
+        </div>
         <a href="#learn" class="btn-ghost">Explore Curriculum</a>
       </div>
     </div>
@@ -2567,12 +3181,71 @@
     <section class="pricing" id="pricing">
       <div class="pricing-glow"></div>
       <div class="pricing-inner">
-        <div class="section-tag reveal">One Price · Full Course Access</div>
-        <h2 class="reveal"><em>Simple</em> pricing.</h2>
-        <p class="reveal">No subscriptions. No upsells. One payment covers all live sessions, all recordings, and everything included — now and after the course ends.</p>
+        <div class="section-tag reveal">Launch Offer · 58% Off · Limited Time</div>
+        <h2 class="reveal"><em>Launch</em> pricing.</h2>
+        <p class="reveal">This is a launch batch offer. The full price is ৳1199 — you're getting it for ৳499 because this is Batch 01. One payment. No subscriptions. No upsells. When this batch fills up, the price goes back.</p>
         <div class="price-card reveal">
+
+          <!-- Floating discount badge -->
+          <div class="discount-badge">
+            <div class="discount-badge-dot"></div>
+            Launch Offer — 58% Off
+          </div>
+
+          <!-- Original crossed-out price -->
+          <div class="price-original-wrap">
+            <span class="price-original"><sup style="font-size:18px;">৳</sup>1199</span>
+            <span class="price-off-pill">58% OFF</span>
+          </div>
+
+          <!-- The actual price -->
           <div class="price-tag"><sup>৳</sup>499</div>
           <div class="price-period">One-time · Full Course Access</div>
+
+          <!-- Savings pill -->
+          <div style="display:flex; justify-content:center; margin-bottom: 32px;">
+            <div class="price-savings">
+              <span class="spark">✦</span>
+              <span class="spark">✦</span>
+              <span class="spark">✦</span>
+              ✦ You save ৳700 on this batch
+            </div>
+          </div>
+
+          <!-- Card Countdown -->
+          <div class="card-countdown">
+            <div class="card-cd-label">Price goes up when timer hits zero</div>
+            <div class="card-cd-timer">
+              <div class="card-cd-unit">
+                <div class="card-cd-digit" id="c-days">00</div>
+                <div class="card-cd-unit-label">Days</div>
+              </div>
+              <div class="card-cd-sep">:</div>
+              <div class="card-cd-unit">
+                <div class="card-cd-digit" id="c-hours">00</div>
+                <div class="card-cd-unit-label">Hours</div>
+              </div>
+              <div class="card-cd-sep">:</div>
+              <div class="card-cd-unit">
+                <div class="card-cd-digit" id="c-mins">00</div>
+                <div class="card-cd-unit-label">Mins</div>
+              </div>
+              <div class="card-cd-sep">:</div>
+              <div class="card-cd-unit">
+                <div class="card-cd-digit" id="c-secs">00</div>
+                <div class="card-cd-unit-label">Secs</div>
+              </div>
+            </div>
+            <div class="card-cd-seats">
+              <span>Only</span>
+              <span class="card-cd-seats-num" id="c-seats">7</span>
+              <span>seats remaining</span>
+              <div class="card-cd-seats-bar">
+                <div class="card-cd-seats-fill" id="c-seats-fill" style="width:65%"></div>
+              </div>
+            </div>
+          </div>
+
           <ul class="price-includes">
             <li>~24 live online classes (3× per week, 2 months)</li>
             <li>Recordings of every session, available after class</li>
@@ -2714,6 +3387,112 @@
       nodes.forEach((n, i) => setTimeout(() => { n.style.opacity = '1'; }, i * 180));
       lines.forEach((l, i) => setTimeout(() => { l.style.opacity = '1'; }, 600 + i * 120));
     });
+
+    // ══ EVERGREEN COUNTDOWN TIMER ══
+    // Resets to 72 hours every time it hits zero.
+    // Persists across page refreshes using localStorage.
+    (function() {
+      const DURATION_HOURS = 72; // change to 48 if you prefer
+      const DURATION_MS    = DURATION_HOURS * 60 * 60 * 1000;
+      const STORAGE_KEY    = 'sfa_countdown_end';
+
+      // Total seats and starting seats left (tweak these)
+      const TOTAL_SEATS    = 20;
+      const SEATS_KEY      = 'sfa_seats_left';
+
+      // ── Get or create deadline ──
+      function getDeadline() {
+        let end = localStorage.getItem(STORAGE_KEY);
+        if (!end || Date.now() > parseInt(end)) {
+          end = Date.now() + DURATION_MS;
+          localStorage.setItem(STORAGE_KEY, end);
+          // Slightly reduce seats each reset to feel real
+          let seats = parseInt(localStorage.getItem(SEATS_KEY)) || TOTAL_SEATS;
+          seats = Math.max(3, seats - Math.floor(Math.random() * 3 + 1));
+          localStorage.setItem(SEATS_KEY, seats);
+        }
+        return parseInt(end);
+      }
+
+      function getSeats() {
+        let s = localStorage.getItem(SEATS_KEY);
+        if (!s) { localStorage.setItem(SEATS_KEY, TOTAL_SEATS); return TOTAL_SEATS; }
+        return parseInt(s);
+      }
+
+      // ── Update a digit with flip animation ──
+      function setDigit(el, val) {
+        if (!el) return;
+        const str = String(val).padStart(2, '0');
+        if (el.textContent !== str) {
+          el.classList.remove('flipping');
+          void el.offsetWidth; // reflow
+          el.classList.add('flipping');
+          el.textContent = str;
+        }
+      }
+
+      // ── Render seats ──
+      function renderSeats(seats) {
+        const pct = Math.round((seats / TOTAL_SEATS) * 100);
+        // Banner
+        const bSeats = document.getElementById('b-seats');
+        if (bSeats) bSeats.textContent = seats;
+        // Card
+        const cSeats = document.getElementById('c-seats');
+        if (cSeats) cSeats.textContent = seats;
+        const cFill = document.getElementById('c-seats-fill');
+        if (cFill) cFill.style.width = pct + '%';
+      }
+
+      // ── Main tick ──
+      function tick() {
+        const deadline = getDeadline();
+        const seats    = getSeats();
+        const diff     = deadline - Date.now();
+
+        if (diff <= 0) {
+          // Reset
+          localStorage.removeItem(STORAGE_KEY);
+          tick();
+          return;
+        }
+
+        const days  = Math.floor(diff / 86400000);
+        const hours = Math.floor((diff % 86400000) / 3600000);
+        const mins  = Math.floor((diff % 3600000)  / 60000);
+        const secs  = Math.floor((diff % 60000)    / 1000);
+
+        // Banner digits
+        setDigit(document.getElementById('b-days'),  days);
+        setDigit(document.getElementById('b-hours'), hours);
+        setDigit(document.getElementById('b-mins'),  mins);
+        setDigit(document.getElementById('b-secs'),  secs);
+
+        // Card digits
+        setDigit(document.getElementById('c-days'),  days);
+        setDigit(document.getElementById('c-hours'), hours);
+        setDigit(document.getElementById('c-mins'),  mins);
+        setDigit(document.getElementById('c-secs'),  secs);
+
+        renderSeats(seats);
+
+        // Turn digits red when under 1 hour
+        const urgent = diff < 3600000;
+        ['b-hours','b-mins','b-secs','c-hours','c-mins','c-secs'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.style.color = urgent ? '#ff4444' : '';
+        });
+      }
+
+      // Push nav down after banner slides in
+      setTimeout(() => {
+        document.body.classList.add('banner-visible');
+      }, 2100);
+
+      tick();
+      setInterval(tick, 1000);
+    })();
   </script>
   <script type="text/javascript">
     (function (l) {
